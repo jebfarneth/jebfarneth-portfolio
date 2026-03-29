@@ -503,12 +503,28 @@ body {
   margin-top: -174px;
   margin-bottom: -32px;
 }
+.resume-mobile-link {
+  display: none;
+  margin-top: 20px;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8a6e3e;
+  text-decoration: none;
+  border-bottom: 1px solid #c4b596;
+  padding-bottom: 2px;
+  transition: color 0.15s ease;
+}
+.resume-mobile-link:hover { color: #1a120a; }
+
 .resume-paper {
   width: 658px;
   height: 851px;
   margin-top: 27px;
   background: #fff;
   border-radius: 3px;
+  -webkit-transform: translateZ(0);
   box-shadow:
     inset 2px 0 0 rgba(255,255,255,0.18),
     inset 0 -2px 0 rgba(60,35,10,0.18),
@@ -602,19 +618,20 @@ body {
 
 @media (max-width: 768px) {
   body { padding: 12px 8px 0; }
-  .folder-body { min-height: auto; }
+  .folder-body { min-height: 600px; }
   .folder-tabs button { font-size: 9.5px; padding: 8px 16px 10px; }
-  .dip-title { font-size: 22px; }
-  .dip-eyebrow { font-size: 11px; }
+  .dip-area { max-width: 44%; }
+  .dip-title { font-size: 18px; }
+  .dip-eyebrow { font-size: 10px; }
   .enron-card { flex-wrap: wrap; gap: 12px; }
   .enron-sub { white-space: normal; }
+  .contact-val { font-size: 15px; }
   .resume-layout { flex-direction: column; }
   .resume-left { width: 100%; padding-top: 10px; }
   .resume-photo { width: 100%; height: auto; aspect-ratio: 3/4; max-height: 320px; }
   .resume-divider { width: 100%; }
-  .resume-right { width: 100%; margin-top: 24px; justify-content: flex-start; padding-top: 0; }
-  .resume-paper { width: 100%; height: auto; aspect-ratio: 8.5/11; }
-  .resume-paper iframe { width: 100%; height: 100%; min-height: unset; }
+  .resume-right { display: none; }
+  .resume-mobile-link { display: block; }
   .contact-row { min-height: 44px; }
 }
 </style>
@@ -718,11 +735,13 @@ body {
               <span class="resume-section-label">Interests &amp; Hobbies</span>
               Old maps, Roman history, catching up on the Buffalo Bills
             </div>
+
+            <a class="resume-mobile-link" href="resume.pdf" target="_blank" rel="noopener noreferrer">View Resume (PDF)</a>
           </div>
 
           <div class="resume-right">
             <div class="resume-paper">
-              <iframe src="resume.pdf#toolbar=0&navpanes=0&scrollbar=0&view=FitH"></iframe>
+              <iframe src="resume.pdf#toolbar=0&navpanes=0&scrollbar=0&view=FitH" width="658" height="851"></iframe>
             </div>
           </div>
 
