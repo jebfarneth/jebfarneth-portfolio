@@ -618,11 +618,12 @@ body {
 
 @media (max-width: 768px) {
   body { padding: 12px 8px 0; }
-  .folder-body { min-height: 600px; }
+  .folder-body { min-height: auto; overflow: visible; }
   .folder-tabs button { font-size: 9.5px; padding: 8px 16px 10px; }
   .dip-area { max-width: 44%; }
-  .dip-title { font-size: 18px; }
-  .dip-eyebrow { font-size: 10px; }
+  .dip-title { font-size: 20px; }
+  .dip-eyebrow { font-size: 9px; }
+  .front-content { position: relative; top: auto; left: auto; right: auto; bottom: auto; margin-top: 90px; padding: 0 20px 40px; }
   .enron-card { flex-wrap: wrap; gap: 12px; }
   .enron-sub { white-space: normal; }
   .contact-val { font-size: 15px; }
