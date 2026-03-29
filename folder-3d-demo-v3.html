@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3D Folder Demo v3 — Max depth</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { height: 100%; }
+body {
+  min-height: 100vh;
+  font-family: 'EB Garamond', Georgia, serif;
+  background-color: #e8dcc8;
+  background-image:
+    radial-gradient(ellipse at 15% 10%, rgba(196,160,96,0.12) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 90%, rgba(160,120,72,0.08) 0%, transparent 55%);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 24px 80px;
+}
+
+.folder-outer {
+  width: 100%;
+  max-width: 1380px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* === TABS === */
+.folder-tabs {
+  display: flex;
+  margin-left: 0;
+  position: relative;
+  z-index: 20;
+  margin-bottom: -3px;
+}
+.folder-tabs button {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 9px 24px 12px;
+  border: none;
+  background: #cdbfa3;
+  color: #6b5440;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+  outline: none;
+  position: relative;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.4),
+    inset 0 -1px 0 rgba(80,50,20,0.08),
+    0 -2px 4px rgba(0,0,0,0.06);
+}
+.folder-tabs button:first-child {
+  border-radius: 10px 0 0 0;
+}
+.folder-tabs button:last-child {
+  border-radius: 0 10px 0 0;
+}
+.folder-tabs button.active {
+  background: #e0d4b8;
+  color: #1a120a;
+  font-weight: 600;
+  z-index: 3;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.5),
+    0 -2px 4px rgba(0,0,0,0.04);
+}
+.folder-tabs button:hover:not(.active) {
+  background: #d6c8ac;
+  color: #3d2e1e;
+}
+
+/* === FOLDER BODY — Pronounced Apple 3D === */
+.folder-body {
+  position: relative;
+  min-height: 893px;
+  border-radius: 3px 14px 16px 16px;
+  box-shadow:
+    /* === INNER BEVEL — light catching top and left edges === */
+    inset 0 3px 0 rgba(255,255,255,0.3),
+    inset 3px 0 0 rgba(255,255,255,0.18),
+    inset 0 6px 8px rgba(255,255,255,0.1),
+    /* === INNER BEVEL — shadow on bottom and right edges === */
+    inset 0 -3px 0 rgba(60,35,10,0.18),
+    inset -3px 0 0 rgba(60,35,10,0.12),
+    inset 0 -6px 8px rgba(60,35,10,0.06),
+    /* === PHYSICAL THICKNESS — 8 layers, each progressively darker === */
+    0 1px 0 #c8ad80,
+    0 2px 0 #c4a878,
+    0 3px 0 #bfa070,
+    0 4px 0 #ba9a68,
+    0 5px 0 #b59460,
+    0 6px 0 #b08e58,
+    0 7px 0 #ab8850,
+    0 8px 0 #a68248,
+    /* Right-side thickness — 8 layers */
+    1px 0 0 #c8ad80,
+    2px 1px 0 #c4a878,
+    3px 2px 0 #bfa070,
+    4px 3px 0 #ba9a68,
+    5px 4px 0 #b59460,
+    6px 5px 0 #b08e58,
+    7px 6px 0 #ab8850,
+    8px 7px 0 #a68248,
+    /* === AMBIENT SHADOW — deep, soft, realistic === */
+    4px 10px 20px rgba(50,30,10,0.2),
+    8px 16px 40px rgba(50,30,10,0.15),
+    12px 24px 60px rgba(50,30,10,0.08);
+  overflow: hidden;
+}
+
+/* SVG panels */
+.folder-body svg.panel {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+}
+.panel-back { z-index: 1; }
+.panel-front {
+  z-index: 3;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.12));
+}
+
+/* === DIP AREA === */
+.dip-area {
+  position: absolute;
+  z-index: 5;
+  top: 18px;
+  left: 28px;
+}
+.dip-title {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 32px;
+  font-weight: 400;
+  color: #1a120a;
+  line-height: 1.15;
+  margin-bottom: 4px;
+}
+.dip-eyebrow {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #8a6e3e;
+}
+
+/* === FRONT CONTENT === */
+.front-content {
+  position: absolute;
+  z-index: 10;
+  top: 150px;
+  left: 40px;
+  right: 40px;
+  bottom: 32px;
+  pointer-events: auto;
+  padding-top: 24px;
+}
+
+.enron-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 20px 24px;
+  background: rgba(10,10,10,0.88);
+  backdrop-filter: blur(12px);
+  border-left: 4px solid #C49032;
+  border-radius: 10px;
+  color: #fff;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.04);
+}
+.enron-title {
+  font-family: 'EB Garamond', serif;
+  font-size: 18px;
+  color: #C49032;
+}
+.enron-sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: rgba(255,255,255,0.45);
+  margin-top: 4px;
+}
+
+.placeholder-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 22px;
+  border: 1.5px dashed #c4b494;
+  border-radius: 10px;
+  margin-top: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: #b4a080;
+}
+
+.demo-label {
+  position: absolute;
+  bottom: 16px;
+  right: 20px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  color: #a08060;
+  opacity: 0.4;
+  z-index: 20;
+}
+</style>
+</head>
+<body>
+
+<div class="folder-outer">
+  <div class="folder-tabs">
+    <button class="active">Projects</button>
+    <button>About</button>
+    <button>Contact</button>
+  </div>
+
+  <div class="folder-body">
+    <svg class="panel panel-back" viewBox="0 0 960 700" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="
+        M 0 0 L 952 0 Q 960 0, 960 8 L 960 690 Q 960 700, 950 700 L 10 700 Q 0 700, 0 690 Z
+      " fill="#e0d4b8" stroke="none"/>
+    </svg>
+
+    <svg class="panel panel-front" viewBox="0 0 960 700" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="
+        M 0 87 Q 8 75, 20 75 L 200 75 Q 218 75, 230 63 L 308 18 Q 318 8, 332 8 L 950 8 Q 960 8, 960 18 L 960 690 Q 960 700, 950 700 L 10 700 Q 0 700, 0 690 Z
+      " fill="#f0e6d0" stroke="none"/>
+    </svg>
+
+    <div class="dip-area">
+      <div class="dip-title">What I've built</div>
+      <div class="dip-eyebrow">Research & Projects</div>
+    </div>
+
+    <div class="front-content">
+      <div class="enron-card">
+        <div>
+          <div class="enron-title">Organizational Knowledge Decay Modeling</div>
+          <div class="enron-sub">517K Enron emails · BERTopic · Graph centrality · Departure simulation</div>
+        </div>
+      </div>
+      <div class="placeholder-card">Next project — coming soon</div>
+      <div class="placeholder-card">Next project — coming soon</div>
+    </div>
+
+    <div class="demo-label">3D demo v3 — pronounced Apple depth</div>
+  </div>
+</div>
+
+</body>
+</html>
