@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jeb Farneth</title>
+<meta name="description" content="Jeb Farneth — Research &amp; Projects">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   RESET & BASE
+   ============================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  font-family: 'EB Garamond', Georgia, serif;
+  background-color: #e8dcc8;
+  background-image:
+    radial-gradient(ellipse at 15% 10%, rgba(196,160,96,0.12) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 90%, rgba(160,120,72,0.08) 0%, transparent 55%);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 36px 24px 0;
+}
+
+/* ============================================
+   FOLDER STRUCTURE
+   ============================================ */
+.folder-outer {
+  width: 100%;
+  max-width: 1380px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- TABS (normal DOM flow, above SVG panels) --- */
+.folder-tabs {
+  display: flex;
+  margin-left: 0;
+  position: relative;
+  z-index: 20;
+  margin-bottom: -1px;
+}
+
+.folder-tabs button {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 8px 22px 10px;
+  border: 1.2px solid #a08060;
+  border-bottom: 1.2px solid #a08060;
+  background: #cdbfa3;
+  color: #6b5440;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+  outline: none;
+  position: relative;
+}
+.folder-tabs button:first-child {
+  border-radius: 5px 0 0 0;
+}
+.folder-tabs button:last-child {
+  border-radius: 0 5px 0 0;
+  border-right: 1.2px solid #a08060;
+}
+.folder-tabs button + button {
+  margin-left: -1.2px;
+}
+.folder-tabs button.active {
+  background: #e0d4b8;
+  color: #1a120a;
+  font-weight: 600;
+  z-index: 3;
+  border-bottom-color: #e0d4b8;
+}
+.folder-tabs button:hover:not(.active) {
+  background: #d6c8ac;
+  color: #3d2e1e;
+}
+
+/* --- FOLDER BODY (the two SVG panels + content) --- */
+.folder-body {
+  position: relative;
+  min-height: 893px;
+}
+
+/* SVG panels fill the folder body */
+.folder-body svg.panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.panel-back { z-index: 1; }
+.panel-front { z-index: 3; pointer-events: none; }
+
+/* --- DIP AREA (header text on the back panel, above front panel shelf) --- */
+.dip-area {
+  position: absolute;
+  z-index: 5;
+  top: 18px;
+  left: 28px;
+}
+.dip-title {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 32px;
+  font-weight: 400;
+  color: #1a120a;
+  line-height: 1.15;
+  margin-bottom: 4px;
+}
+.dip-eyebrow {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #8a6e3e;
+}
+
+/* --- FRONT PANEL CONTENT --- */
+.front-content {
+  position: absolute;
+  z-index: 10;
+  top: 150px;
+  left: 40px;
+  right: 40px;
+  bottom: 32px;
+  pointer-events: auto;
+  padding-top: 24px;
+}
+
+/* Tab panes */
+.tab-pane {
+  display: none;
+  animation: paneIn 0.2s ease;
+}
+.tab-pane.active {
+  display: block;
+}
+@keyframes paneIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================
+   PROJECTS TAB
+   ============================================ */
+
+/* --- Enron Featured Card (dark liquid glass) --- */
+.enron-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 20px 24px;
+  background: rgba(10,10,10,0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(196,144,50,0.35);
+  border-left: 4px solid #C49032;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.35s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+/* Shimmer sweep on hover */
+.enron-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%; bottom: 0;
+  width: 60%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+  transition: left 0.6s ease;
+  pointer-events: none;
+}
+
+.enron-card:hover {
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(12px);
+  border-color: rgba(154,114,48,0.5);
+  border-left-color: #C49032;
+  transform: translateY(-2px) scale(1.005);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+}
+.enron-card:hover::after {
+  left: 120%;
+}
+.enron-card:hover .enron-title { color: #1a120a; }
+.enron-card:hover .enron-sub { color: #6b5440; }
+.enron-card:hover .enron-date { color: #6b5440; }
+.enron-card:hover .live-badge {
+  background: rgba(45,140,60,0.12);
+  color: #2D8C3C;
+  border-color: rgba(45,140,60,0.4);
+}
+
+.enron-logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.enron-info {
+  flex: 1;
+  min-width: 0;
+}
+.enron-title {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: #C49032;
+  transition: color 0.35s ease;
+  margin-bottom: 4px;
+}
+.enron-sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.02em;
+  color: rgba(255,255,255,0.45);
+  transition: color 0.35s ease;
+}
+
+.enron-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.live-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: rgba(45,140,60,0.2);
+  color: #4dbd65;
+  border: 1px solid rgba(45,140,60,0.45);
+  transition: all 0.35s ease;
+}
+.enron-date {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: rgba(255,255,255,0.35);
+  transition: color 0.35s ease;
+}
+
+/* --- Ghost placeholder cards --- */
+.ghost-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 22px;
+  border: 1.5px dashed #c4b494;
+  border-radius: 8px;
+  margin-top: 12px;
+}
+.ghost-icon {
+  width: 40px;
+  height: 40px;
+  border: 1.5px dashed #c4b494;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+.ghost-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: #b4a080;
+  letter-spacing: 0.02em;
+}
+
+/* ============================================
+   ABOUT TAB
+   ============================================ */
+.about-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+}
+.about-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.about-photo {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center 15%;
+  border: 2px solid #c4b090;
+  flex-shrink: 0;
+}
+.about-name {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 24px;
+  font-weight: 400;
+  color: #1a120a;
+  margin-bottom: 6px;
+}
+.about-degree {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: #6b5440;
+  line-height: 1.6;
+}
+.about-divider {
+  width: 100%;
+  height: 1px;
+  background: #c4b494;
+  opacity: 0.5;
+}
+
+/* Resume placeholder */
+.resume-ghost {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 22px;
+  border: 1.5px dashed #c4b494;
+  border-radius: 8px;
+  width: 100%;
+}
+.resume-icon {
+  width: 40px;
+  height: 48px;
+  border: 1.5px dashed #c4b494;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: #b4a080;
+  flex-shrink: 0;
+}
+.resume-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: #b4a080;
+}
+
+/* ============================================
+   CONTACT TAB
+   ============================================ */
+.contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.contact-row {
+  display: flex;
+  align-items: center;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(196,176,144,0.3);
+  text-decoration: none;
+  color: #1a120a;
+  transition: all 0.15s ease;
+}
+.contact-row:last-child {
+  border-bottom: none;
+}
+.contact-row:hover {
+  padding-left: 6px;
+}
+.contact-row:hover .contact-val {
+  color: #C49032;
+}
+.contact-platform {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8a7258;
+  width: 90px;
+  flex-shrink: 0;
+}
+.contact-arrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: #b4a080;
+  margin: 0 16px;
+}
+.contact-val {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 17px;
+  color: #1a120a;
+  transition: color 0.15s ease;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 640px) {
+  body { padding: 16px 10px 0; }
+  .folder-tabs { margin-left: 12px; }
+  .folder-tabs button { padding: 6px 14px 8px; font-size: 9px; }
+  .front-content { left: 20px; right: 20px; top: 95px; }
+  .dip-area { left: 16px; top: 12px; }
+  .dip-title { font-size: 22px; }
+  .about-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .about-photo { width: 100px; height: 100px; }
+  .enron-card { flex-direction: column; align-items: flex-start; }
+  .enron-meta { flex-direction: row; align-items: center; }
+}
+</style>
+</head>
+<body>
+
+<div class="folder-outer">
+  <!-- ======= TABS (in normal DOM flow, above SVG) ======= -->
+  <div class="folder-tabs" id="tabBar">
+    <button class="active" data-tab="projects">Projects</button>
+    <button data-tab="about">About</button>
+    <button data-tab="contact">Contact</button>
+  </div>
+
+  <!-- ======= FOLDER BODY ======= -->
+  <div class="folder-body">
+
+    <!-- BACK PANEL SVG — darker parchment, full rect -->
+    <svg class="panel panel-back" viewBox="0 0 960 700" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="
+        M 0 0
+        L 952 0
+        Q 960 0, 960 8
+        L 960 690
+        Q 960 700, 950 700
+        L 10 700
+        Q 0 700, 0 690
+        Z
+      " fill="#e0d4b8" stroke="#a08060" stroke-width="1"/>
+    </svg>
+
+    <!-- FRONT PANEL SVG — lighter parchment
+         Geometric top edge (left to right):
+         1. Slight curve up from left edge
+         2. Straight horizontal shelf (dip text visible above)
+         3. Slight bend into...
+         4. Straight 45-degree diagonal going up-right
+         5. Slight curve leveling off to flat top for rest of width
+    -->
+    <svg class="panel panel-front" viewBox="0 0 960 700" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="
+        M 0 87
+        Q 8 75, 20 75
+        L 200 75
+        Q 218 75, 230 63
+        L 308 18
+        Q 318 8, 332 8
+        L 950 8
+        Q 960 8, 960 18
+        L 960 690
+        Q 960 700, 950 700
+        L 10 700
+        Q 0 700, 0 690
+        Z
+      " fill="#f0e6d0" stroke="none"/>
+    </svg>
+
+    <!-- DIP AREA — title + eyebrow in the valley -->
+    <div class="dip-area">
+      <div class="dip-title" id="dipTitle">What I've built</div>
+      <div class="dip-eyebrow" id="dipEyebrow">Research & Projects</div>
+    </div>
+
+    <!-- FRONT PANEL CONTENT -->
+    <div class="front-content">
+
+      <!-- === PROJECTS PANE === -->
+      <div class="tab-pane active" id="pane-projects">
+        <!-- Enron featured card -->
+        <a class="enron-card" href="/enron" target="_blank" rel="noopener">
+          <img class="enron-logo" src="enron-logo.png" alt="Enron project logo">
+          <div class="enron-info">
+            <div class="enron-title">Organizational Knowledge Decay Modeling</div>
+            <div class="enron-sub">517K Enron emails · BERTopic · Graph centrality · Departure simulation</div>
+          </div>
+          <div class="enron-meta">
+            <span class="live-badge">Live</span>
+            <span class="enron-date">March 2026</span>
+          </div>
+        </a>
+
+        <!-- Ghost placeholders -->
+        <div class="ghost-card">
+          <div class="ghost-icon"></div>
+          <div class="ghost-text">Next project — coming soon</div>
+        </div>
+        <div class="ghost-card">
+          <div class="ghost-icon"></div>
+          <div class="ghost-text">Next project — coming soon</div>
+        </div>
+      </div>
+
+      <!-- === ABOUT PANE === -->
+      <div class="tab-pane" id="pane-about">
+        <div class="about-content">
+          <div class="about-header">
+            <img class="about-photo" src="photo.jpg" alt="Jeb Farneth">
+            <div>
+              <div class="about-name">Jeb Farneth</div>
+              <div class="about-degree">
+                BS Business Economics<br>
+                SUNY Cortland · 2024
+              </div>
+            </div>
+          </div>
+          <div class="about-divider"></div>
+          <div class="resume-ghost">
+            <div class="resume-icon">CV</div>
+            <div class="resume-text">Resume — coming soon</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- === CONTACT PANE === -->
+      <div class="tab-pane" id="pane-contact">
+        <div class="contact-list">
+          <a class="contact-row" href="https://linkedin.com/in/jebfarneth" target="_blank" rel="noopener">
+            <span class="contact-platform">LinkedIn</span>
+            <span class="contact-arrow">→</span>
+            <span class="contact-val">/in/jebfarneth</span>
+          </a>
+          <a class="contact-row" href="https://github.com/jebfarneth" target="_blank" rel="noopener">
+            <span class="contact-platform">GitHub</span>
+            <span class="contact-arrow">→</span>
+            <span class="contact-val">/jebfarneth</span>
+          </a>
+          <a class="contact-row" href="mailto:jeb@jebfarneth.com">
+            <span class="contact-platform">Email</span>
+            <span class="contact-arrow">→</span>
+            <span class="contact-val">jeb@jebfarneth.com</span>
+          </a>
+        </div>
+      </div>
+
+    </div><!-- /.front-content -->
+  </div><!-- /.folder-body -->
+</div><!-- /.folder-outer -->
+
+<script>
+(function() {
+  var tabData = {
+    projects: { title: "What I've built", eyebrow: 'Research & Projects' },
+    about:    { title: 'Jeb Farneth',     eyebrow: 'Background' },
+    contact:  { title: 'Contact',         eyebrow: 'Get in touch' }
+  };
+
+  var tabBar = document.getElementById('tabBar');
+  var dipTitle = document.getElementById('dipTitle');
+  var dipEyebrow = document.getElementById('dipEyebrow');
+
+  tabBar.addEventListener('click', function(e) {
+    var btn = e.target.closest('button');
+    if (!btn) return;
+    var tab = btn.dataset.tab;
+
+    // Update tab buttons
+    tabBar.querySelectorAll('button').forEach(function(b) {
+      b.classList.toggle('active', b === btn);
+    });
+
+    // Update dip text
+    dipTitle.textContent = tabData[tab].title;
+    dipEyebrow.textContent = tabData[tab].eyebrow;
+
+    // Update panes
+    document.querySelectorAll('.tab-pane').forEach(function(p) {
+      p.classList.toggle('active', p.id === 'pane-' + tab);
+    });
+  });
+})();
+</script>
+</body>
+</html>
