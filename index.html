@@ -436,75 +436,111 @@ body {
 }
 
 /* ============================================
-   ABOUT TAB
+   RESUME TAB
    ============================================ */
-.about-content {
+.resume-layout {
+  display: flex;
+  gap: 0;
+  height: 100%;
+  overflow: visible;
+}
+.resume-left {
+  width: 280px;
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 20px;
+  gap: 18px;
+  padding-top: 0;
+  margin-top: -18px;
 }
-.about-header {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-}
-.about-photo {
-  width: 130px;
-  height: 130px;
-  border-radius: 50%;
+.resume-photo {
+  width: 260px;
+  height: 345px;
+  margin-bottom: 27px;
+  border-radius: 3px;
   object-fit: cover;
   object-position: center 15%;
-  border: 2px solid #c4b090;
-  flex-shrink: 0;
+  background: #d5c8a8;
+  display: block;
+  box-shadow:
+    /* Inner bevel — light catching left edge */
+    inset 2px 0 0 rgba(255,255,255,0.18),
+    /* Inner bevel — shadow on bottom and right edges */
+    inset 0 -2px 0 rgba(60,35,10,0.18),
+    inset -2px 0 0 rgba(60,35,10,0.12),
+    inset 0 -4px 6px rgba(60,35,10,0.06),
+    /* Physical thickness — smooth gradient */
+    1px 1px 1px 0px #c6ab7c,
+    2px 4px 1px 0px #b59360,
+    4px 6px 2px 0px #a68248,
+    /* Ambient shadow */
+    2px 6px 12px rgba(50,30,10,0.18),
+    4px 10px 24px rgba(50,30,10,0.12);
 }
-.about-name {
-  font-family: 'EB Garamond', Georgia, serif;
-  font-size: 24px;
-  font-weight: 400;
-  color: #1a120a;
+.resume-section-label {
+  display: block;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #8a7258;
   margin-bottom: 6px;
 }
-.about-degree {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: #6b5440;
-  line-height: 1.6;
+.resume-edu {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 15px;
+  color: #8a7258;
+  line-height: 1.4;
 }
-.about-divider {
-  width: 100%;
+.resume-divider {
+  width: 260px;
   height: 1px;
-  background: #c4b494;
-  opacity: 0.5;
+  background: #c4b596;
+  margin: 4px 0;
 }
-
-/* Resume placeholder */
-.resume-ghost {
+.resume-interests {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 15px;
+  color: #8a7258;
+  line-height: 1.4;
+}
+.resume-right {
+  flex: 1;
   display: flex;
+  justify-content: flex-end;
   align-items: center;
-  gap: 16px;
-  padding: 18px 22px;
-  border: 1.5px dashed #c4b494;
-  border-radius: 12px;
-  width: 100%;
+  margin-top: -174px;
+  margin-bottom: -32px;
 }
-.resume-icon {
-  width: 40px;
-  height: 48px;
-  border: 1.5px dashed #c4b494;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  color: #b4a080;
-  flex-shrink: 0;
+.resume-paper {
+  width: 658px;
+  height: 851px;
+  margin-top: 27px;
+  background: #fff;
+  border-radius: 3px;
+  box-shadow:
+    /* Inner bevel — light catching left edge */
+    inset 2px 0 0 rgba(255,255,255,0.18),
+    /* Inner bevel — shadow on bottom and right edges */
+    inset 0 -2px 0 rgba(60,35,10,0.18),
+    inset -2px 0 0 rgba(60,35,10,0.12),
+    inset 0 -5px 7px rgba(60,35,10,0.06),
+    /* Physical thickness — smooth gradient */
+    1px 2px 1px 0px #c6ab7c,
+    3px 5px 2px 0px #b59360,
+    5px 8px 2px 0px #a68248,
+    /* Ambient shadow */
+    3px 8px 16px rgba(50,30,10,0.2),
+    6px 12px 32px rgba(50,30,10,0.14);
+  overflow: hidden;
 }
-.resume-text {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: #b4a080;
+.resume-paper iframe {
+  width: calc(100% + 16px);
+  height: calc(100% + 16px);
+  margin: -8px;
+  border: none;
+  display: block;
 }
 
 /* ============================================
@@ -565,8 +601,8 @@ body {
   .front-content { left: 20px; right: 20px; top: 95px; }
   .dip-area { left: 16px; top: 12px; }
   .dip-title { font-size: 22px; }
-  .about-header { flex-direction: column; align-items: flex-start; gap: 16px; }
-  .about-photo { width: 100px; height: 100px; }
+  .about-layout { grid-template-columns: 1fr; }
+  .about-photo-wrap { max-height: 260px; }
   .enron-card { flex-direction: column; align-items: flex-start; }
   .enron-meta { flex-direction: row; align-items: center; }
 }
@@ -578,7 +614,7 @@ body {
   <!-- ======= TABS (in normal DOM flow, above SVG) ======= -->
   <div class="folder-tabs" id="tabBar">
     <button class="active" data-tab="projects">Projects</button>
-    <button data-tab="about">About</button>
+    <button data-tab="about">Resume</button>
     <button data-tab="contact">Contact</button>
   </div>
 
@@ -644,7 +680,7 @@ body {
           <img class="enron-logo" src="enron-logo.png" alt="Enron project logo">
           <div class="enron-info">
             <div class="enron-title">Organizational Knowledge Decay Modeling</div>
-            <div class="enron-sub">517K Enron emails · BERTopic · Graph centrality · Departure simulation</div>
+            <div class="enron-sub">Modeling which employees an organization can least afford to lose, validated against the Enron collapse</div>
           </div>
           <div class="enron-meta">
             <span class="live-badge">Live</span>
@@ -663,24 +699,42 @@ body {
         </div>
       </div>
 
-      <!-- === ABOUT PANE === -->
+      <!-- === RESUME PANE === -->
       <div class="tab-pane" id="pane-about">
-        <div class="about-content">
-          <div class="about-header">
-            <img class="about-photo" src="photo.jpg" alt="Jeb Farneth">
+        <div class="resume-layout">
+
+          <!-- LEFT: photo + info -->
+          <div class="resume-left">
+            <img class="resume-photo" src="photo.jpg" alt="Jeb Farneth">
+
             <div>
-              <div class="about-name">Jeb Farneth</div>
-              <div class="about-degree">
-                BS Business Economics<br>
-                SUNY Cortland · 2024
+              <span class="resume-section-label">Education</span>
+              <div class="resume-edu">
+                Fordham University<br>
+                M.S. Business Analytics<br>
+                Expected May 2027<br>
+                <br>
+                SUNY Cortland<br>
+                B.S. Business Economics<br>
+                August 2024
               </div>
             </div>
+
+            <div class="resume-divider"></div>
+
+            <div class="resume-interests">
+              <span class="resume-section-label">Interests &amp; Hobbies</span>
+              Old maps, Roman history, catching up on the Buffalo Bills
+            </div>
           </div>
-          <div class="about-divider"></div>
-          <div class="resume-ghost">
-            <div class="resume-icon">CV</div>
-            <div class="resume-text">Resume — coming soon</div>
+
+          <!-- RIGHT: resume PDF -->
+          <div class="resume-right">
+            <div class="resume-paper">
+              <iframe src="resume.pdf#toolbar=0&navpanes=0&scrollbar=0&view=FitH"></iframe>
+            </div>
           </div>
+
         </div>
       </div>
 
@@ -713,7 +767,7 @@ body {
 (function() {
   var tabData = {
     projects: { title: "What I've built", eyebrow: 'Research & Projects' },
-    about:    { title: 'Jeb Farneth',     eyebrow: 'Background' },
+    about:    { title: 'About me',          eyebrow: 'Background' },
     contact:  { title: 'Contact',         eyebrow: 'Get in touch' }
   };
 
