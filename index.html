@@ -29,7 +29,7 @@ body {
   align-items: flex-start;
   justify-content: center;
   padding: 36px 24px 0;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 /* ============================================
@@ -570,13 +570,22 @@ body {
   color: #C49032;
 }
 .contact-platform {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #8a7258;
+  display: flex;
+  align-items: center;
   width: 90px;
   flex-shrink: 0;
+}
+.contact-platform img {
+  height: 26px;
+  max-width: 28px;
+  object-fit: contain;
+  object-position: left center;
+  display: block;
+  opacity: 0.75;
+  transition: opacity 0.15s ease;
+}
+.contact-row:hover .contact-platform img {
+  opacity: 1;
 }
 .contact-arrow {
   font-family: 'JetBrains Mono', monospace;
@@ -741,20 +750,20 @@ body {
       <!-- === CONTACT PANE === -->
       <div class="tab-pane" id="pane-contact">
         <div class="contact-list">
-          <a class="contact-row" href="https://linkedin.com/in/jebfarneth" target="_blank" rel="noopener">
-            <span class="contact-platform">LinkedIn</span>
+          <a class="contact-row" href="https://www.linkedin.com/in/jeb-farneth-423930310/" target="_blank" rel="noopener">
+            <span class="contact-platform"><img src="linkedin-icon.png" alt="LinkedIn"></span>
             <span class="contact-arrow">→</span>
-            <span class="contact-val">/in/jebfarneth</span>
+            <span class="contact-val">LinkedIn/JebFarneth</span>
           </a>
           <a class="contact-row" href="https://github.com/jebfarneth" target="_blank" rel="noopener">
-            <span class="contact-platform">GitHub</span>
+            <span class="contact-platform"><img src="github-icon.png" alt="GitHub" style="max-width:38px; height:34px; margin-left:-7.8px;"></span>
             <span class="contact-arrow">→</span>
-            <span class="contact-val">/jebfarneth</span>
+            <span class="contact-val">GitHub/JebFarneth</span>
           </a>
-          <a class="contact-row" href="mailto:jeb@jebfarneth.com">
-            <span class="contact-platform">Email</span>
+          <a class="contact-row" href="mailto:jebwfarneth@outlook.com">
+            <span class="contact-platform"><img src="outlook-icon.png" alt="Email"></span>
             <span class="contact-arrow">→</span>
-            <span class="contact-val">jeb@jebfarneth.com</span>
+            <span class="contact-val">jebwfarneth@outlook.com</span>
           </a>
         </div>
       </div>
