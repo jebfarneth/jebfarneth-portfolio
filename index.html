@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jeb Farneth</title>
+<title>Jeb Farneth | Portfolio</title>
 <meta name="description" content="Jeb Farneth — Research &amp; Projects">
 <meta property="og:title" content="Jeb Farneth">
 <meta property="og:description" content="Portfolio and research">
@@ -11,6 +11,7 @@
 <meta property="og:url" content="https://jebfarneth.com">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -659,17 +660,14 @@ body {
 <body>
 
 <div class="folder-outer">
-  <!-- ======= TABS (in normal DOM flow, above SVG) ======= -->
   <div class="folder-tabs" id="tabBar">
     <button class="active" data-tab="projects">Projects</button>
     <button data-tab="about">Resume</button>
     <button data-tab="contact">Contact</button>
   </div>
 
-  <!-- ======= FOLDER BODY ======= -->
   <div class="folder-body">
 
-    <!-- BACK PANEL SVG — darker parchment, full rect -->
     <svg class="panel panel-back" viewBox="0 0 960 700" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
       <path d="
         M 0 0
@@ -683,14 +681,6 @@ body {
       " fill="#e0d4b8" stroke="none"/>
     </svg>
 
-    <!-- FRONT PANEL SVG — lighter parchment
-         Geometric top edge (left to right):
-         1. Slight curve up from left edge
-         2. Straight horizontal shelf (dip text visible above)
-         3. Slight bend into...
-         4. Straight 45-degree diagonal going up-right
-         5. Slight curve leveling off to flat top for rest of width
-    -->
     <svg class="panel panel-front" viewBox="0 0 960 700" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
       <path d="
         M 0 87
@@ -709,22 +699,17 @@ body {
       " fill="#f0e6d0" stroke="none"/>
     </svg>
 
-    <!-- FRONT PANEL HIGHLIGHT — thin light strip for paper thickness illusion -->
     <div class="panel-front-highlight"></div>
 
-    <!-- DIP AREA — title + eyebrow in the valley -->
     <div class="dip-area">
       <div class="dip-title" id="dipTitle">What I've built</div>
       <div class="dip-eyebrow" id="dipEyebrow">Research & Projects</div>
     </div>
 
-    <!-- FRONT PANEL CONTENT -->
     <div class="front-content">
 
-      <!-- === PROJECTS PANE === -->
       <div class="tab-pane active" id="pane-projects">
-        <!-- Enron featured card -->
-        <a class="enron-card" href="/enron" target="_blank" rel="noopener">
+          <a class="enron-card" href="/enron" target="_blank" rel="noopener noreferrer">
           <img class="enron-logo" src="enron-logo.png" alt="Enron project logo">
           <div class="enron-info">
             <div class="enron-title">Organizational Knowledge Decay Modeling</div>
@@ -736,7 +721,6 @@ body {
           </div>
         </a>
 
-        <!-- Ghost placeholders -->
         <div class="ghost-card">
           <div class="ghost-icon"></div>
           <div class="ghost-text">Next project — coming soon</div>
@@ -747,11 +731,9 @@ body {
         </div>
       </div>
 
-      <!-- === RESUME PANE === -->
       <div class="tab-pane" id="pane-about">
         <div class="resume-layout">
 
-          <!-- LEFT: photo + info -->
           <div class="resume-left">
             <img class="resume-photo" src="photo.jpg" alt="Jeb Farneth">
 
@@ -776,7 +758,6 @@ body {
             </div>
           </div>
 
-          <!-- RIGHT: resume PDF -->
           <div class="resume-right">
             <div class="resume-paper">
               <iframe src="resume.pdf#toolbar=0&navpanes=0&scrollbar=0&view=FitH"></iframe>
@@ -786,15 +767,14 @@ body {
         </div>
       </div>
 
-      <!-- === CONTACT PANE === -->
       <div class="tab-pane" id="pane-contact">
         <div class="contact-list">
-          <a class="contact-row" href="https://www.linkedin.com/in/jeb-farneth-423930310/" target="_blank" rel="noopener">
+          <a class="contact-row" href="https://www.linkedin.com/in/jeb-farneth-423930310/" target="_blank" rel="noopener noreferrer">
             <span class="contact-platform"><img src="linkedin-icon.png" alt="LinkedIn"></span>
             <span class="contact-arrow">→</span>
             <span class="contact-val">LinkedIn/JebFarneth</span>
           </a>
-          <a class="contact-row" href="https://github.com/jebfarneth" target="_blank" rel="noopener">
+          <a class="contact-row" href="https://github.com/jebfarneth" target="_blank" rel="noopener noreferrer">
             <span class="contact-platform"><img src="github-icon.png" alt="GitHub" style="max-width:38px; height:34px; margin-left:-7.8px;"></span>
             <span class="contact-arrow">→</span>
             <span class="contact-val">GitHub/JebFarneth</span>
@@ -807,9 +787,9 @@ body {
         </div>
       </div>
 
-    </div><!-- /.front-content -->
-  </div><!-- /.folder-body -->
-</div><!-- /.folder-outer -->
+    </div>
+  </div>
+</div>
 
 <script>
 (function() {
