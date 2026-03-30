@@ -785,6 +785,15 @@ body {
   var dipTitle = document.getElementById('dipTitle');
   var dipEyebrow = document.getElementById('dipEyebrow');
 
+  function applyMobileDipSize(tab) {
+    if (window.innerWidth > 768) return;
+    var small = tab === 'projects';
+    dipTitle.style.fontSize = small ? '14px' : '16px';
+    dipEyebrow.style.fontSize = small ? '6.5px' : '7.5px';
+  }
+
+  applyMobileDipSize('projects');
+
   tabBar.addEventListener('click', function(e) {
     var btn = e.target.closest('button');
     if (!btn) return;
@@ -795,6 +804,7 @@ body {
     });
 
     dipTitle.textContent = tabData[tab].title;
+    applyMobileDipSize(tab);
     dipEyebrow.textContent = tabData[tab].eyebrow;
 
     document.querySelectorAll('.tab-pane').forEach(function(p) {
