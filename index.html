@@ -785,14 +785,27 @@ body {
   var dipTitle = document.getElementById('dipTitle');
   var dipEyebrow = document.getElementById('dipEyebrow');
 
+  function currentTab() {
+    var active = tabBar.querySelector('button.active');
+    return active ? active.dataset.tab : 'projects';
+  }
+
   function applyMobileDipSize(tab) {
-    if (window.innerWidth > 768) return;
+    if (window.innerWidth > 768) {
+      dipTitle.style.fontSize = '';
+      dipEyebrow.style.fontSize = '';
+      return;
+    }
     var small = tab === 'projects';
     dipTitle.style.fontSize = small ? '14px' : '16px';
     dipEyebrow.style.fontSize = small ? '6.5px' : '7.5px';
   }
 
   applyMobileDipSize('projects');
+
+  window.addEventListener('resize', function() {
+    applyMobileDipSize(currentTab());
+  });
 
   tabBar.addEventListener('click', function(e) {
     var btn = e.target.closest('button');
