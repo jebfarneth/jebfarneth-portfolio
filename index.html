@@ -842,13 +842,14 @@ body {
       p.classList.toggle('active', p.id === 'pane-' + tab);
     });
 
-    // Bug 2: Safari tab content disappearing — force reflow on all panes
+    // Bug 2: Safari tab content disappearing — opacity nudge forces repaint
     if (isSafari) {
-      document.querySelectorAll('.tab-pane').forEach(function(p) {
-        p.style.display = 'none';
-        p.offsetHeight; // triggers layout flush
-        p.style.display = '';
-      });
+      setTimeout(function() {
+        document.querySelectorAll('.tab-pane.active').forEach(function(p) {
+          p.style.opacity = '0.99';
+          requestAnimationFrame(function() { p.style.opacity = '1'; });
+        });
+      }, 0);
     }
   });
 })();
