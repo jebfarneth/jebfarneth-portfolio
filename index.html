@@ -297,6 +297,48 @@ body {
 }
 
 /* ============================================
+   POSTS TAB
+   ============================================ */
+#pane-posts { padding-top: 24px; }
+.post-row {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 16px 4px;
+  border-bottom: 1px solid rgba(107,84,64,0.22);
+  text-decoration: none;
+  color: #1a120a;
+}
+.post-row:first-child { border-top: 1px solid rgba(107,84,64,0.22); }
+.post-kind {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8a6e3e;
+  min-width: 48px;
+}
+.post-title {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 20px;
+  flex: 1;
+  transition: color 0.2s ease;
+}
+.post-row:hover .post-title { color: #C49032; }
+.post-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: #6b5440;
+  white-space: nowrap;
+}
+@media (max-width: 768px) {
+  .post-row { flex-wrap: wrap; gap: 4px 12px; }
+  .post-title { flex-basis: 100%; order: 2; font-size: 18px; }
+  .post-kind { order: 1; }
+  .post-meta { order: 3; }
+}
+
+/* ============================================
    PROJECTS TAB
    ============================================ */
 
@@ -674,6 +716,7 @@ body {
 <div class="folder-outer">
   <div class="folder-tabs" id="tabBar">
     <button class="active" data-tab="projects">Projects</button>
+    <button data-tab="posts">Posts</button>
     <button data-tab="about">Resume</button>
     <button data-tab="contact">Contact</button>
   </div>
@@ -779,6 +822,20 @@ body {
         </a>
       </div>
 
+      <div class="tab-pane" id="pane-posts">
+        <!-- Add a post (newest first):
+        <a class="post-row" href="/posts/slug/">
+          <span class="post-kind">Paper</span>
+          <span class="post-title">Title of the post</span>
+          <span class="post-meta">12 min read · 25 Sep 2026</span>
+        </a>
+        -->
+        <div class="ghost-card">
+          <div class="ghost-icon"></div>
+          <div class="ghost-text">First post — coming soon</div>
+        </div>
+      </div>
+
       <div class="tab-pane" id="pane-about">
         <div class="resume-layout">
 
@@ -878,6 +935,7 @@ body {
 
   var tabData = {
     projects: { title: "What I've built", eyebrow: 'Research & Projects' },
+    posts:    { title: "What I've written", eyebrow: 'Papers & Posts' },
     about:    { title: 'About me',          eyebrow: 'Background' },
     contact:  { title: 'Contact',         eyebrow: 'Get in touch' }
   };
