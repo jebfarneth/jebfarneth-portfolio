@@ -254,16 +254,27 @@ body {
   padding-top: 24px;
 }
 
-#pane-projects .enron-card {
+#pane-projects .enron-card:nth-of-type(1) {
   animation: cardSlide 0.5s cubic-bezier(0.22, 0.9, 0.36, 1) 0.55s forwards;
   opacity: 0;
 }
-#pane-projects .ghost-card:nth-of-type(1) {
-  animation: cardSlide 0.5s cubic-bezier(0.22, 0.9, 0.36, 1) 0.72s forwards;
+#pane-projects .enron-card:nth-of-type(2) {
+  margin-top: 12px;
+  animation: cardSlide 0.5s cubic-bezier(0.22, 0.9, 0.36, 1) 0.70s forwards;
   opacity: 0;
 }
-#pane-projects .ghost-card:nth-of-type(2) {
-  animation: cardSlide 0.5s cubic-bezier(0.22, 0.9, 0.36, 1) 0.88s forwards;
+#pane-projects .enron-card:nth-of-type(3) {
+  margin-top: 12px;
+  animation: cardSlide 0.5s cubic-bezier(0.22, 0.9, 0.36, 1) 0.85s forwards;
+  opacity: 0;
+}
+#pane-projects .enron-card:nth-of-type(4) {
+  margin-top: 12px;
+  animation: cardSlide 0.5s cubic-bezier(0.22, 0.9, 0.36, 1) 1.0s forwards;
+  opacity: 0;
+}
+#pane-projects .ghost-card:nth-of-type(1) {
+  animation: cardSlide 0.5s cubic-bezier(0.22, 0.9, 0.36, 1) 0.85s forwards;
   opacity: 0;
 }
 
@@ -364,6 +375,7 @@ body {
   color: #C49032;
   transition: color 0.35s ease;
   margin-bottom: 4px;
+  overflow-wrap: anywhere;
 }
 .enron-sub {
   font-family: 'JetBrains Mono', monospace;
@@ -371,6 +383,7 @@ body {
   letter-spacing: 0.02em;
   color: rgba(255,255,255,0.45);
   transition: color 0.35s ease;
+  overflow-wrap: anywhere;
 }
 
 .enron-meta {
@@ -614,12 +627,30 @@ body {
   .front-content { left: 20px; right: 20px; top: 95px; }
   .dip-area { left: 16px; top: 12px; }
   .dip-title { font-size: 22px; }
-  .enron-card { flex-direction: column; align-items: flex-start; }
-  .enron-meta { flex-direction: row; align-items: center; }
+  .enron-card { flex-direction: column; align-items: center; text-align: center; padding: 20px 18px; }
+  .enron-info { width: 100%; }
+  .enron-meta { flex-direction: row; align-items: center; justify-content: center; width: 100%; }
 }
 
 @media (max-width: 768px) {
   body { padding: 12px 8px 0; }
+  .folder-outer,
+  .folder-body,
+  .front-content,
+  .tab-pane,
+  .enron-card,
+  .ghost-card { min-width: 0; max-width: 100%; }
+  .folder-outer,
+  .folder-tabs,
+  #pane-projects .enron-card:nth-of-type(1),
+  #pane-projects .enron-card:nth-of-type(2),
+  #pane-projects .enron-card:nth-of-type(3),
+  #pane-projects .enron-card:nth-of-type(4),
+  #pane-projects .ghost-card:nth-of-type(1) {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
   .folder-body { min-height: 750px; overflow: visible; }
   .folder-tabs button { font-size: 9.5px; padding: 8px 16px 10px; }
   .dip-title { font-size: 14px; }
@@ -690,6 +721,51 @@ body {
     <div class="front-content">
 
       <div class="tab-pane active" id="pane-projects">
+        <a class="enron-card" href="https://getserver.app" target="_blank" rel="noopener noreferrer">
+          <svg class="enron-logo" style="border-radius:9px;" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Server">
+            <rect width="48" height="48" rx="9" fill="#193E33"/>
+            <g transform="translate(8 8)" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13h17v8a6 6 0 0 1-6 6h-5a6 6 0 0 1-6-6v-8Z"/><path d="M22 14h2a4 4 0 0 1 0 8h-2M10 9c-3-3 3-4 0-7M17 9c-3-3 3-4 0-7"/></g>
+          </svg>
+          <div class="enron-info">
+            <div class="enron-title">Server — Restaurant Operations Platform</div>
+            <div class="enron-sub">Multi-tenant Node.js/PostgreSQL SaaS on AWS — Square OAuth sync, PDF/XLSX/DOCX intake, gpt-4.1-mini agents, approval-gated purchasing, staffing and refunds, Stripe billing</div>
+          </div>
+          <div class="enron-meta">
+            <span class="live-badge">Live</span>
+            <span class="enron-date">September 2026</span>
+          </div>
+        </a>
+
+        <a class="enron-card" href="https://buttonwoodmarkets.com" target="_blank" rel="noopener noreferrer">
+          <img class="enron-logo" src="buttonwood-logo.png" alt="Buttonwood Markets logo">
+          <div class="enron-info">
+            <div class="enron-title">Buttonwood Markets — Public Equity Monitoring</div>
+            <div class="enron-sub">Founder-built equity surveillance service — dated evidence records, source provenance, reproducible calculations, live paying users</div>
+          </div>
+          <div class="enron-meta">
+            <span class="live-badge">Live</span>
+            <span class="enron-date">March 2026</span>
+          </div>
+        </a>
+
+        <a class="enron-card" href="/alpha" target="_blank" rel="noopener noreferrer">
+          <svg class="enron-logo" style="border-radius:9px;" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Alpha Capital">
+            <defs><linearGradient id="alphaLogoR" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C0233A"/><stop offset="1" stop-color="#8C1622"/></linearGradient></defs>
+            <rect width="48" height="48" rx="9" fill="url(#alphaLogoR)"/>
+            <path d="M8 35 L18 23 L26 29 L40 12" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <text x="22" y="34" text-anchor="middle" font-family="EB Garamond,Georgia,serif" font-size="29" font-style="italic" fill="#fff">&#945;</text>
+            <text x="35" y="39" text-anchor="middle" font-family="EB Garamond,Georgia,serif" font-size="14" font-style="italic" fill="#fff">&#963;</text>
+          </svg>
+          <div class="enron-info">
+            <div class="enron-title">Alpha Capital — Systematic Equity Research Platform</div>
+            <div class="enron-sub">PostgreSQL-backed ML research system — SQL evidence spine, six data feeds, PIT lineage, leakage-audited gradient-boosted rankers, cost-aware validation</div>
+          </div>
+          <div class="enron-meta">
+            <span class="live-badge">Live</span>
+            <span class="enron-date">June 2026</span>
+          </div>
+        </a>
+
         <a class="enron-card" href="/enron" target="_blank" rel="noopener noreferrer">
           <img class="enron-logo" src="enron-logo.png" alt="Enron project logo">
           <div class="enron-info">
@@ -701,15 +777,6 @@ body {
             <span class="enron-date">March 2026</span>
           </div>
         </a>
-
-        <div class="ghost-card">
-          <div class="ghost-icon"></div>
-          <div class="ghost-text">Next project — coming soon</div>
-        </div>
-        <div class="ghost-card">
-          <div class="ghost-icon"></div>
-          <div class="ghost-text">Next project — coming soon</div>
-        </div>
       </div>
 
       <div class="tab-pane" id="pane-about">
@@ -723,7 +790,7 @@ body {
               <div class="resume-edu">
                 Fordham University<br>
                 M.S. Business Analytics<br>
-                Expected May 2027<br>
+                Fall 2027<br>
                 <br>
                 SUNY Cortland<br>
                 B.S. Business Economics<br>
@@ -776,6 +843,22 @@ body {
 
 <script>
 (function() {
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+
+  function resetScrollPosition() {
+    if (!window.location.hash) {
+      window.scrollTo(0, 0);
+    }
+  }
+
+  resetScrollPosition();
+  window.addEventListener('pageshow', resetScrollPosition);
+  window.addEventListener('load', function() {
+    requestAnimationFrame(resetScrollPosition);
+  });
+
   var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
   // Bug 1: Safari PDF — iframe can't render PDF; blank it and show a fallback link

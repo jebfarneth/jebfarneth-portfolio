@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jeb Farneth — Alpha Capital</title>
+<meta name="description" content="Alpha Capital — a point-in-time systematic equity research platform: an end-to-end market-data and machine-learning research pipeline, built solo.">
+<meta property="og:title" content="Alpha Capital — Systematic Equity Research Platform">
+<meta property="og:description" content="A point-in-time systematic equity research platform — built solo, from raw market data to machine-learned signals.">
+<meta property="og:image" content="https://jebfarneth.com/og-image.png">
+<meta property="og:url" content="https://jebfarneth.com/alpha">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@1,400;1,500&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs2015.min.css">
+<style>
+/* ============================================================
+   Alpha Capital — case study
+   Styling mirrors the Renaissance Technologies design language:
+   Open Sans, institutional-minimal, near-grayscale with a deep
+   muted-red accent, generous whitespace.
+   ============================================================ */
+:root{
+  --black:#000;
+  --gray-05:#fafafa; --gray-1:#f5f5f5; --gray-2:#e4e4e4; --gray-3:#d0d0d0;
+  --gray-5:#a3a3a3; --gray-6:#8b8b8b; --gray-7:#727272; --gray-8:#575757;
+  --gray-9:#3a3a3a; --gray-95:#2d2d2d; --gray-10:#121212;
+  --red:#C52133; --red-deep:#871f23; --red-darker:#741A1D; --red-light:#D9595D;
+  --blue:#218bff; --green:#2da44e;
+
+  --bg:#ffffff;
+  --bg-soft:#fafafa;
+  --surface:#ffffff;
+  --border:#e4e4e4;
+  --border-strong:#d0d0d0;
+  --text:#121212;
+  --text-body:#3a3a3a;
+  --text-muted:#727272;
+  --accent:var(--red);
+
+  --ff:'Open Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+  --maxw:1400px;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+body{
+  font-family:var(--ff);
+  background:var(--bg);
+  color:var(--text-body);
+  line-height:1.6;
+  font-size:17px;
+  font-weight:400;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{max-width:100%;height:auto;}
+a{color:inherit;text-decoration:none;}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(22px,4vw,56px);}
+
+/* ── eyebrow / labels ── */
+.eyebrow{
+  font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:18px;
+}
+.kicker{
+  font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--text-muted);
+}
+
+/* ── top bar ── */
+.topbar{
+  position:sticky;top:0;z-index:50;
+  background:rgba(255,255,255,.88);backdrop-filter:saturate(180%) blur(10px);
+  -webkit-backdrop-filter:saturate(180%) blur(10px);
+  border-bottom:1px solid var(--border);
+}
+.topbar-inner{display:flex;align-items:center;justify-content:space-between;height:60px;}
+.topbar a.brand{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--text);letter-spacing:-.01em;font-size:16px;}
+.topbar .mark{
+  width:30px;height:30px;border-radius:7px;flex-shrink:0;display:block;
+}
+.topbar nav{display:flex;align-items:center;gap:26px;}
+.topbar nav a{font-size:14px;font-weight:600;color:var(--text-muted);transition:color .15s;}
+.topbar nav a:hover{color:var(--text);}
+.topbar nav a.back{color:var(--text-muted);}
+.topbar .ghub{
+  display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;
+  color:var(--text);border:1px solid var(--border-strong);border-radius:7px;padding:6px 12px;
+  transition:border-color .15s,background .15s;
+}
+.topbar .ghub:hover{border-color:var(--text);background:var(--gray-1);}
+
+/* ── hero ── */
+.hero{padding:96px 0 56px;border-bottom:1px solid var(--border);}
+.hero h1{
+  font-size:64px;font-weight:700;line-height:1.04;letter-spacing:-.025em;
+  color:var(--text);margin-bottom:22px;
+}
+.hero .tagline{
+  font-size:22px;font-weight:400;line-height:1.45;color:var(--text-body);
+  max-width:840px;margin-bottom:36px;
+}
+.hero .tagline .em{color:var(--text);font-weight:600;}
+.cta-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:32px;margin-bottom:48px;}
+.btn{
+  display:inline-flex;align-items:center;gap:9px;font-size:15px;font-weight:600;
+  padding:12px 22px;border-radius:8px;transition:all .15s;cursor:pointer;
+}
+.btn-primary{background:var(--red);color:#fff;border:1px solid var(--red);}
+.btn-primary:hover{background:var(--red-deep);border-color:var(--red-deep);}
+.btn-ghost{background:transparent;color:var(--text);border:1px solid var(--border-strong);}
+.btn-ghost:hover{border-color:var(--text);background:var(--gray-1);}
+
+/* ── stat strip ── */
+.stats{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+  background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden;
+}
+.stat{background:var(--surface);padding:24px 22px;}
+.stat .num{font-size:30px;font-weight:700;letter-spacing:-.02em;color:var(--red);line-height:1.1;}
+.stat .num .unit{color:var(--accent);}
+.stat .lbl{font-size:13px;font-weight:500;color:var(--text-muted);margin-top:6px;}
+
+/* ── sections ── */
+section.block{padding:78px 0;border-bottom:1px solid var(--border);}
+section.block.soft{background:var(--bg-soft);}
+.block h2{
+  font-size:34px;font-weight:700;letter-spacing:-.02em;color:var(--text);
+  line-height:1.15;margin-bottom:22px;max-width:840px;
+}
+.block .lede{font-size:19px;color:var(--text-body);max-width:840px;margin-bottom:14px;}
+.block p{max-width:840px;margin-bottom:16px;}
+.block p:last-child{margin-bottom:0;}
+.block .lede + p{margin-top:8px;}
+.q{
+  border-left:3px solid var(--accent);padding:6px 0 6px 22px;margin:30px 0 4px;
+  font-size:21px;font-weight:600;color:var(--text);max-width:840px;line-height:1.4;
+}
+.flist{margin:22px 0 8px;border-top:1px solid var(--border);max-width:840px;}
+.flist .fi{padding:16px 0;border-bottom:1px solid var(--border);font-size:16px;color:var(--text-body);line-height:1.55;}
+.flist .fi b{color:var(--red-deep);font-weight:700;}
+
+/* ── architecture flow ── */
+.flow{display:flex;flex-direction:column;gap:0;margin-top:14px;}
+.flow-row{display:flex;align-items:stretch;flex-wrap:wrap;gap:16px;}
+.node{
+  flex:1;min-width:180px;background:var(--surface);border:1px solid var(--border-strong);
+  border-radius:12px;padding:20px 20px;position:relative;transition:border-color .15s,box-shadow .15s;
+}
+.node:hover{border-color:var(--gray-6);box-shadow:0 4px 18px rgba(18,18,18,.06);}
+.node.accent{border-top:3px solid var(--accent);}
+.node .n-step{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;}
+.node .n-title{font-size:16px;font-weight:700;color:var(--text);margin-bottom:6px;line-height:1.25;}
+.node .n-desc{font-size:13.5px;color:var(--text-muted);line-height:1.5;}
+.node .n-tag{
+  display:inline-block;margin-top:12px;font-size:11px;font-weight:600;letter-spacing:.02em;
+  color:var(--red-deep);background:rgba(197,33,51,.07);border:1px solid rgba(197,33,51,.22);
+  border-radius:20px;padding:3px 10px;
+}
+.node .n-tag.ok{color:var(--green);background:rgba(45,164,78,.08);border-color:rgba(45,164,78,.25);}
+.flow-arrow{
+  display:flex;align-items:center;justify-content:center;color:var(--gray-5);
+  font-size:22px;line-height:1;padding:8px 0;
+}
+.flow-arrow.v{padding:6px 0;}
+
+/* ── data source cards ── */
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:8px;}
+.src{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:22px 24px;}
+.src .s-name{font-size:17px;font-weight:700;color:var(--red-deep);margin-bottom:4px;}
+.src .s-role{font-size:14px;color:var(--text-muted);line-height:1.5;}
+.src .s-status{font-size:12px;color:var(--text-muted);margin-top:10px;font-weight:600;letter-spacing:.01em;}
+.src .s-cite{font-size:11.5px;color:var(--text-muted);margin-top:10px;line-height:1.5;border-top:1px solid var(--border);padding-top:9px;}
+.src .s-cite b{color:var(--red-deep);font-weight:600;}
+.scale-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;justify-content:center;}
+.chip{
+  font-size:14px;font-weight:600;color:var(--text);background:var(--gray-1);
+  border:1px solid var(--border);border-radius:8px;padding:8px 14px;
+}
+.chip b{color:var(--accent);}
+
+/* ── methodology list ── */
+.method{margin-top:8px;border-top:1px solid var(--border);max-width:840px;}
+.method .item{display:flex;gap:20px;padding:22px 0;border-bottom:1px solid var(--border);}
+.method .m-k{flex:0 0 230px;font-size:16px;font-weight:700;color:var(--red-deep);line-height:1.35;}
+.method .m-v{flex:1;font-size:16px;color:var(--text-body);min-width:240px;}
+
+/* ── findings + chart placeholders ── */
+.charts{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:30px;}
+.ph{
+  border:1.5px dashed var(--border-strong);border-radius:12px;background:var(--gray-05);
+  aspect-ratio:4/3;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:18px;gap:8px;
+}
+.ph .ph-title{font-size:14px;font-weight:700;color:var(--text-muted);}
+.ph .ph-note{font-size:12px;color:var(--gray-6);line-height:1.45;}
+.chart{margin:0;}
+.chart img{width:100%;height:auto;display:block;border:1px solid var(--border);border-radius:12px;background:#fff;}
+.chart figcaption{font-size:13px;color:var(--text-muted);line-height:1.45;margin-top:11px;}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.dtable{border-collapse:collapse;margin:24px 0 8px;font-size:15px;min-width:420px;max-width:760px;width:100%;}
+.dtable caption{caption-side:bottom;text-align:left;font-size:12.5px;color:var(--text-muted);line-height:1.5;padding-top:11px;max-width:560px;}
+.dtable th{text-align:left;font-weight:700;color:var(--text-muted);font-size:11px;letter-spacing:.05em;text-transform:uppercase;padding:0 18px 9px 0;border-bottom:2px solid var(--border-strong);white-space:nowrap;}
+.dtable th.num,.dtable td.num{text-align:right;}
+.dtable td{padding:10px 18px 10px 0;border-bottom:1px solid var(--border);color:var(--text-body);white-space:nowrap;}
+.dtable td.num{font-variant-numeric:tabular-nums;font-weight:600;}
+.dtable td.pos{color:#1a7f37;}
+.dtable td.neg{color:var(--red);}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth;}}
+section[id]{scroll-margin-top:calc(var(--topbarH,58px) + 54px);}
+.secnav{position:sticky;top:var(--topbarH,58px);z-index:45;background:rgba(255,255,255,.9);backdrop-filter:saturate(180%) blur(10px);-webkit-backdrop-filter:saturate(180%) blur(10px);border-bottom:1px solid var(--border);}
+.secnav .wrap{display:flex;gap:22px;overflow-x:auto;padding-top:11px;padding-bottom:11px;scrollbar-width:none;}
+.secnav .wrap::-webkit-scrollbar{display:none;}
+.secnav a{font-size:12.5px;font-weight:600;color:var(--text-muted);white-space:nowrap;letter-spacing:.02em;transition:color .15s;border-bottom:2px solid transparent;padding-bottom:2px;}
+.secnav a:hover{color:var(--text);}
+.secnav a.active{color:var(--red);border-bottom-color:var(--red);}
+.codeblock{margin:22px 0 7px;border:1px solid #2b2b2b;border-radius:12px;overflow:hidden;background:#1e1e1e;box-shadow:0 4px 18px rgba(0,0,0,.10);}
+.codeblock .code-file{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11.5px;color:#9aa0a6;background:#2a2a2b;padding:8px 16px;border-bottom:1px solid #161616;letter-spacing:.02em;}
+.codeblock pre{margin:0;overflow-x:auto;}
+.codeblock pre code,.codeblock pre code.hljs{padding:15px 18px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px;line-height:1.65;background:#1e1e1e;color:#d4d4d4;white-space:pre;display:block;}
+.code-cap{font-size:13px;color:var(--red);line-height:1.5;margin:0 0 22px;max-width:700px;font-weight:600;}
+.subhead{font-size:15px;font-weight:700;color:var(--text);margin:34px 0 2px;}
+.modelcard{border:1px solid var(--border);border-radius:12px;overflow:hidden;margin:18px 0 8px;max-width:860px;}
+.modelcard .mc-row{display:grid;grid-template-columns:150px 1fr;border-bottom:1px solid var(--border);}
+.modelcard .mc-row:last-child{border-bottom:none;}
+.modelcard .mc-k{padding:12px 16px;font-size:11.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--text-muted);background:#f7f8fa;border-right:1px solid var(--border);}
+.modelcard .mc-v{padding:12px 18px;font-size:14.5px;color:var(--text-body);line-height:1.55;}
+.modelcard .mc-v code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;background:#eef0f3;padding:1px 6px;border-radius:4px;}
+.badge-nogo{display:inline-block;background:var(--red);color:#fff;font-size:11px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;padding:2px 9px;border-radius:5px;margin-right:9px;}
+.firewall{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0 14px;max-width:840px;}
+.fw-col{border:1px solid var(--border);border-radius:12px;padding:15px 18px;}
+.fw-in{background:#f5faf6;border-color:#d4e7da;}
+.fw-out{background:#fcf4f5;border-color:#f0d6da;}
+.fw-h{font-size:13px;font-weight:700;margin-bottom:9px;}
+.fw-in .fw-h{color:#1a7f37;}
+.fw-out .fw-h{color:var(--red-deep);}
+.fw-h span{font-weight:500;color:var(--text-muted);font-size:11.5px;letter-spacing:.01em;}
+.fw-col ul{margin:0;padding-left:18px;}
+.fw-col li{font-size:13.5px;color:var(--text-body);line-height:1.6;margin-bottom:3px;}
+.fw-rule{font-size:14px;color:var(--text-body);line-height:1.55;max-width:820px;margin:0 0 8px;}
+.fw-rule b{color:var(--red-deep);}
+.fw-rule em{font-style:normal;font-weight:700;}
+.repro{border:1px solid var(--border);border-left:3px solid var(--red);border-radius:10px;background:#fafafa;padding:15px 20px;margin:26px 0 8px;max-width:780px;}
+.repro-h{font-size:11.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;}
+.repro ul{list-style:none;margin:0;padding:0;}
+.repro li{font-size:13px;line-height:1.95;font-family:ui-monospace,Menlo,Consolas,monospace;}
+.repro a{color:var(--red-deep);font-weight:600;}
+.repro a:hover{text-decoration:underline;}
+.repro li span{font-family:var(--ff);color:var(--text-muted);font-size:12.5px;}
+.repo-note{font-size:12.5px;color:var(--text-muted);margin-top:15px;max-width:580px;}
+.cite-line{font-size:12px;color:var(--text-muted);line-height:1.5;margin:11px 0 0;}
+.cite-line b{color:var(--red-deep);font-weight:600;}
+.chart-one{max-width:680px;margin:22px 0 6px;}
+.chart-one img{width:100%;height:auto;display:block;border:1px solid var(--border);border-radius:12px;background:#fff;}
+.chart-one figcaption{font-size:13px;color:var(--text-muted);line-height:1.45;margin-top:11px;}
+.chart-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:940px;margin:22px 0 6px;align-items:start;}
+.chart-row .chart-one{max-width:none;margin:0;}
+@media(max-width:640px){.chart-row{grid-template-columns:1fr;}}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:26px 34px;max-width:1000px;margin:20px 0 6px;align-items:start;}
+.two-col > div{min-width:0;}
+.two-col .chart-one{max-width:none;margin:0;}
+.two-col .subhead{margin-top:0;}
+.two-col .tw,.two-col .dtable{margin-top:14px;}
+@media(max-width:720px){.two-col{grid-template-columns:1fr;}}
+.proof{font-size:15px;color:var(--text-body);line-height:1.6;max-width:710px;margin:20px 0 0;padding-left:15px;border-left:2px solid var(--red);}
+.hero-tech{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0;}
+.hero-tech span{font-size:12.5px;font-weight:600;color:var(--text-muted);border:1px solid var(--border);border-radius:999px;padding:4px 12px;background:#fff;}
+.btn-text{display:inline-flex;align-items:center;color:var(--red);font-weight:600;font-size:14px;}
+.btn-text:hover{text-decoration:underline;}
+.src .s-role + .s-role{margin-top:8px;}
+.src .s-role b{color:var(--text);font-weight:700;}
+.uni-note{font-size:13px;color:var(--text-muted);margin:13px 0 0;font-style:italic;}
+.dtable.wrap-cells{min-width:0;}
+.dtable.wrap-cells td{white-space:normal;}
+.dtable.wrap-cells td:first-child{white-space:nowrap;font-weight:600;color:var(--text);padding-right:24px;}
+.scale-row .chip b{color:var(--red);}
+#data .src .s-name{color:var(--red-deep);}
+#data .src .s-role + .s-role b{color:var(--red-deep);}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:9px;vertical-align:middle;}
+.dot-ok{background:#1a7f37;}
+.dot-red{background:var(--red);}
+.dot-amber{background:#d68a00;}
+.dot-gray{background:#9aa0a6;}
+.mlflow-wrap{overflow-x:auto;margin:18px 0 4px;}
+.mlflow{display:flex;align-items:stretch;gap:8px;width:fit-content;margin-left:auto;margin-right:auto;}
+.mlflow .step{flex:0 0 auto;width:154px;border:1px solid var(--border);border-radius:10px;padding:11px 13px;background:#fff;}
+.mlflow .step .st-n{font-size:12.5px;font-weight:700;color:var(--red-deep);line-height:1.25;overflow-wrap:break-word;}
+.mlflow .step .st-p{font-size:11px;color:var(--text-muted);margin-top:5px;line-height:1.4;overflow-wrap:break-word;}
+.mlflow .arr{display:flex;align-items:center;color:#c4c4c4;font-size:15px;flex:0 0 auto;}
+.oracle{border:1px solid var(--border);border-left:3px solid var(--red);border-radius:10px;background:#fff;padding:18px 20px;margin:18px 0 8px;max-width:840px;}
+.oracle p{margin:0 0 14px;font-size:14.5px;color:var(--text-body);line-height:1.6;}
+.oracle p:last-child{margin-bottom:0;}
+.oracle-metrics{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 14px;}
+.oracle-metrics .om{flex:1 1 100px;min-width:92px;border:1px solid var(--border);border-radius:8px;padding:10px 12px;background:#fafafa;}
+.oracle-metrics .om-n{font-size:21px;font-weight:700;color:var(--red);line-height:1;}
+.oracle-metrics .om-l{font-size:11px;color:var(--text-muted);margin-top:5px;line-height:1.3;}
+.oracle-verdict{font-weight:600;}
+.shadow-badges{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 14px;justify-content:center;}
+.badge-shadow{display:inline-block;background:#8a7320;color:#fff;font-size:11px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;padding:2px 9px;border-radius:5px;}
+.shadow-grid{display:flex;flex-direction:column;gap:12px;margin:16px 0 8px;max-width:840px;}
+.shadow-card{border:1px solid var(--border);border-radius:11px;background:#fff;padding:15px 18px;}
+.shadow-card .sc-h{font-size:14.5px;font-weight:700;color:var(--red-deep);}
+.shadow-card .sc-meta{font-size:12px;color:var(--text-muted);margin:4px 0 9px;line-height:1.45;}
+.shadow-card .sc-list{margin:0;padding:0;list-style:none;}
+.shadow-card .sc-list li{font-size:13.5px;color:var(--text-body);line-height:1.55;padding:4px 0;border-top:1px solid var(--border);}
+.shadow-card .sc-list li:first-child{border-top:none;}
+.shadow-card .sc-list li b{color:var(--text);font-weight:700;}
+.shadow-caveat{border-left:3px solid #8a7320;background:#fbf8ee;border-radius:0 8px 8px 0;padding:12px 16px;margin:14px 0 0;font-size:13.5px;color:var(--text-body);line-height:1.55;max-width:820px;}
+.vstrip{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0 8px;}
+.vstrip .vc{flex:1 1 134px;min-width:122px;border:1px solid var(--border);border-radius:10px;padding:13px 16px;background:#fff;}
+.vstrip .vc .vn{font-size:23px;font-weight:700;color:var(--red);line-height:1.05;}
+.vstrip .vc .vn.sm{font-size:15px;}
+.vstrip .vc .vl{font-size:11.5px;color:var(--text-muted);margin-top:7px;line-height:1.35;}
+.badge-go{display:inline-block;background:#1a7f37;color:#fff;font-size:11px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;padding:2px 9px;border-radius:5px;}
+.badge-eval{display:inline-block;background:#5b6470;color:#fff;font-size:11px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;padding:2px 9px;border-radius:5px;}
+.gateflow{display:flex;flex-wrap:wrap;gap:9px;margin:18px 0 12px;}
+.gateflow .gstep{flex:1 1 146px;min-width:130px;border:1px solid var(--border);border-radius:10px;padding:12px 14px;background:#fff;}
+.gateflow .gstep .gn{font-size:12.5px;font-weight:700;color:var(--text);line-height:1.25;margin-bottom:9px;}
+.ghead{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:30px 0 2px;}
+.ghead .gt{font-size:15px;font-weight:700;color:var(--text);}
+.glance-sec{padding:46px 0;}
+.glance-thesis{font-size:18px;font-weight:600;color:var(--text);line-height:1.45;max-width:780px;margin:8px 0 18px;}
+.glance-list{list-style:none;margin:0;padding:0;max-width:880px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:11px 32px;}
+.glance-list li{font-size:14.5px;color:var(--text-body);line-height:1.5;padding-left:20px;position:relative;}
+.glance-list li::before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:50%;background:var(--red);}
+#lessons .cards{grid-template-columns:1fr;max-width:860px;}
+.foot-cta{display:flex;flex-wrap:wrap;gap:10px 24px;justify-content:center;margin-bottom:10px;}
+.foot-cta a{font-weight:600;color:var(--text);}
+.foot-cta a:hover{color:var(--red);}
+.foot-name{font-size:13px;color:var(--text-muted);}
+.codedetails{margin:18px 0 8px;}
+.codedetails > summary{cursor:pointer;font-size:14px;font-weight:600;color:var(--red-deep);padding:10px 16px;border:1px solid var(--border);border-radius:8px;background:#fff;list-style:none;display:inline-block;}
+.codedetails > summary::-webkit-details-marker{display:none;}
+.codedetails > summary::after{content:" ▸";color:var(--text-muted);}
+.codedetails[open] > summary::after{content:" ▾";}
+.codedetails[open]{padding-top:4px;}
+@media(max-width:600px){
+  .modelcard .mc-row{grid-template-columns:1fr;}
+  .modelcard .mc-k{border-right:none;border-bottom:1px solid var(--border);}
+  .firewall{grid-template-columns:1fr;}
+}
+
+/* ── tech stack ── */
+.stack{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;justify-content:center;}
+.badge{
+  font-size:14px;font-weight:600;color:var(--text);background:var(--surface);
+  border:1px solid var(--border-strong);border-radius:8px;padding:9px 15px;
+}
+
+/* ── footer ── */
+.foot{padding:42px 0;text-align:center;color:var(--text-muted);font-size:14px;}
+.foot a{color:var(--text);font-weight:600;border-bottom:1px solid var(--border-strong);}
+.foot a:hover{border-color:var(--text);}
+.foot .sep{margin:0 10px;color:var(--gray-3);}
+
+/* ── responsive ── */
+@media (max-width:820px){
+  .hero h1{font-size:46px;}
+  .hero .tagline{font-size:19px;}
+  .stats{grid-template-columns:repeat(2,1fr);}
+  .cards{grid-template-columns:1fr;}
+  .charts{grid-template-columns:1fr;}
+  .method .item{flex-direction:column;gap:4px;}
+  .method .m-k{flex-basis:auto;}
+  .topbar nav a:not(.back){display:none;}
+  /* stack the architecture flow vertically on tablet & below */
+  .flow-row{flex-direction:column;gap:14px;}
+  .flow-arrow{transform:rotate(90deg);padding:4px 0;}
+  .node{min-width:0;}
+}
+@media (max-width:560px){
+  .wrap{padding:0 18px;}
+  .hero .wrap{text-align:center;}
+  .hero{padding:60px 0 44px;}
+  .hero h1{font-size:clamp(32px,9vw,40px);}
+  .hero .tagline{font-size:18px;}
+  .hero .tagline,.proof,.hero-tech,.cta-row,.stats{margin-left:auto;margin-right:auto;}
+  .hero-tech,.cta-row{justify-content:center;}
+  .proof{border-left:0;border-top:2px solid var(--red);padding:14px 0 0;text-align:center;}
+  .block{padding:54px 0;}
+  .block h2{font-size:clamp(24px,7vw,28px);}
+  .block .lede{font-size:17px;}
+  .stats{grid-template-columns:1fr;}
+  .stat{padding:18px 16px;}
+  .stat .num{font-size:24px;}
+  .cta-row .btn,.cta-row .btn-text{width:100%;justify-content:center;}
+  .scale-row .chip{font-size:13px;}
+}
+/* center section content within the wrap */
+.block .wrap > *{margin-left:auto;margin-right:auto;}
+.block h2,.kicker,.subhead,.glance-thesis,.glance-list{max-width:860px;}
+.dtable{margin-left:auto;margin-right:auto;}
+/* ── mobile hardening: nothing clips horizontally at small widths ── */
+@media(max-width:600px){
+  .cards>.src,.vstrip>.vc,.firewall>.fw-col,.glance-list>li,.stats>.stat,
+  .shadow-grid>.shadow-card,.gateflow>.gstep,.oracle-metrics>.om,.flow-row>.node,
+  .modelcard .mc-row>*,.chart-row>*,.two-col>*{min-width:0;}
+  .mc-v,.mc-v code,.repro li,.repro a,.repo-note,.repo-note code,.code-file,.cite-line,
+  .s-role,.s-cite,.s-name,.fw-col li,.shadow-card .sc-list li,.shadow-card .sc-meta,
+  .vstrip .vl,.vstrip .vn,.oracle-metrics .om-l,.stat .lbl,.method .m-v,.glance-list li,
+  .node .n-title,.node .n-desc,.chip,.badge,.gstep .gn,.uni-note,.uni-note code{overflow-wrap:anywhere;}
+}
+@media(max-width:420px){
+  .hero .eyebrow{overflow-wrap:anywhere;}
+}
+</style>
+</head>
+<body>
+
+<!-- ── top bar ── -->
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="brand" href="/"><svg class="mark" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Alpha Capital">
+        <defs><linearGradient id="alphaLogoR" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C0233A"/><stop offset="1" stop-color="#8C1622"/></linearGradient></defs>
+        <rect width="48" height="48" rx="9" fill="url(#alphaLogoR)"/>
+        <path d="M8 35 L18 23 L26 29 L40 12" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="22" y="34" text-anchor="middle" font-family="EB Garamond,Georgia,serif" font-size="29" font-style="italic" fill="#fff">&#945;</text>
+        <text x="35" y="39" text-anchor="middle" font-family="EB Garamond,Georgia,serif" font-size="14" font-style="italic" fill="#fff">&#963;</text>
+      </svg> Alpha Capital</a>
+    <nav>
+      <a href="#architecture">Architecture</a>
+      <a href="#data">Data</a>
+      <a href="#methodology">Methodology</a>
+      <a class="ghub" href="https://github.com/jebfarneth/alpha-capital" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
+      <a class="back" href="/">← Portfolio</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ── section nav ── -->
+<nav class="secnav" aria-label="Section navigation">
+  <div class="wrap">
+    <a href="#patterns">Research</a>
+    <a href="#architecture">Architecture</a>
+    <a href="#data">Data</a>
+    <a href="#engineering">Engineering</a>
+    <a href="#ml">ML</a>
+    <a href="#findings">Case Study</a>
+    <a href="#validation">Validation</a>
+    <a href="#results">Results</a>
+    <a href="#lessons">Lessons</a>
+  </div>
+</nav>
+
+<!-- ── hero ── -->
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Equity Research Infrastructure · Built Solo</div>
+    <h1>Alpha Capital</h1>
+    <p class="tagline">A <span class="em">production-style market-data and machine-learning platform</span> for testing U.S. equity signals under point-in-time, survivorship-correct, cost-aware conditions.</p>
+    <p class="proof">Six live data integrations feed a lineage-tracked PostgreSQL evidence spine; models train only on features knowable at the decision timestamp and are judged with purged walk-forward validation.</p>
+    <div class="hero-tech">
+      <span>Python</span><span>PostgreSQL</span><span>scikit-learn</span><span>Google Cloud</span><span>SQLAlchemy</span><span>pytest</span>
+    </div>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="https://github.com/jebfarneth/alpha-capital" target="_blank" rel="noopener noreferrer">View GitHub Repository →</a>
+      <a class="btn btn-ghost" href="#architecture">See the Architecture</a>
+      <a class="btn-text" href="#validation">Jump to Validation →</a>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="num">6<span class="unit"> APIs</span></div><div class="lbl">market data · filings · news · brokerage</div></div>
+      <div class="stat"><div class="num">2M<span class="unit">+</span></div><div class="lbl">lineage-tracked PostgreSQL rows</div></div>
+      <div class="stat"><div class="num">13K<span class="unit">+</span></div><div class="lbl">securities reconstructed · incl. delisted</div></div>
+      <div class="stat"><div class="num">72K<span class="unit">+</span></div><div class="lbl">signal observations · 30-month replay</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── at a glance ── -->
+<section class="block soft glance-sec" id="glance">
+  <div class="wrap">
+    <div class="kicker">At a Glance</div>
+    <p class="glance-thesis">Built a research platform rigorous enough to reject its own leading strategy.</p>
+    <ul class="glance-list">
+      <li>Built a production-style market-data and machine-learning research platform.</li>
+      <li>Reconstructed point-in-time equity universes with full provider lineage.</li>
+      <li>Built a five-snapshot event tape and a leakage-audited ML layer.</li>
+      <li>Its cost-aware validation gate rejected the project's own leading microcap strategy.</li>
+      <li>The reusable platform now pivots to liquid all-cap research.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── problem ── -->
+<section class="block" id="problem">
+  <div class="wrap">
+    <div class="kicker">The Problem</div>
+    <h2>Most backtests are fiction.</h2>
+    <p class="lede">A strategy that looks brilliant on historical data is usually measuring a mistake, not an edge.</p>
+    <p>The common failures all share one root: the test quietly uses information that wasn't available at the time. It scores against <em>today's</em> surviving companies and silently drops the ones that delisted or went to zero. It lets full-day or future values leak into features. It assumes perfect, costless fills.</p>
+    <p>Alpha Capital was built to answer a single, strict question for every signal:</p>
+    <div class="q">"Could this have actually been known, traded, and validated at the time — net of cost?"</div>
+  </div>
+</section>
+
+<!-- ── research factory ── -->
+<section class="block soft" id="patterns">
+  <div class="wrap">
+    <div class="kicker">Research Scope</div>
+    <h2>A research factory, not one strategy</h2>
+    <p class="lede">Each research direction starts from a literature-backed market mechanism, then runs through Alpha Capital's own point-in-time, survivorship-corrected, cost-aware pipeline. The papers motivate hypotheses; they do not substitute for validation. Most are <em>supposed</em> to die in that pipeline; the value is a system honest enough to tell which few don't.</p>
+    <div class="cards">
+      <div class="src"><div class="s-name">Post-earnings-announcement drift</div><div class="s-role">Prices keep drifting after a large standardized earnings surprise as information is slowly incorporated.</div><div class="s-status">SUE-ranked · market-cap sensitive · drift front-loaded d1–3</div><div class="s-cite"><b>Academic anchors:</b> Bernard &amp; Thomas (1989, 1990) · Martineau (2021) · Vamossy (2025)</div></div>
+      <div class="src"><div class="s-name">52-week-high breakout momentum</div><div class="s-role">New 52-week highs on volume expansion tend to continue rather than mean-revert.</div><div class="s-status">Price-derived · survivorship-backfillable</div><div class="s-cite"><b>Academic anchors:</b> Jegadeesh &amp; Titman (1993, 2001) · Daniel, Hirshleifer &amp; Subrahmanyam (1998) · Daniel &amp; Moskowitz (2016)</div></div>
+      <div class="src"><div class="s-name">Insider-cluster accumulation</div><div class="s-role">Multiple insiders buying within a short window signals informed conviction ahead of the market.</div><div class="s-status">SEC Form-4 sourced · survivor-bias sensitive</div><div class="s-cite"><b>Academic anchors:</b> Cohen, Malloy &amp; Pomorski (2012) · Das (2025)</div></div>
+      <div class="src"><div class="s-name">Day-0 gap &amp; volume events</div><div class="s-role">Large overnight gaps on volume spikes, where the move may continue or reverse intraday.</div><div class="s-status">Intraday · information-arrival lens</div><div class="s-cite"><b>Academic anchors:</b> MacKinlay (1997) · Brown &amp; Warner (1985) · Christie, Corwin &amp; Harris (2002) · Heston, Korajczyk &amp; Sadka (2010)</div></div>
+      <div class="src"><div class="s-name">Capitulation-volume bounce</div><div class="s-role">Deeply distressed names that print a capitulation volume spike bounce over the short term.</div><div class="s-status">Cost-dominated; see the worked example below</div><div class="s-cite"><b>Academic anchors:</b> Hong &amp; Stein (1999) · Amihud (2002) · Frazzini, Israel &amp; Moskowitz (2018) · Sullivan, Timmermann &amp; White (1999)</div></div>
+      <div class="src"><div class="s-name">One spine, many bets</div><div class="s-role">Every pattern is just a hypothesis: scored by the same leakage-clean features, labeled by the same cost-aware returns, judged by the same out-of-sample gauntlet.</div><div class="s-status">Reusable research infrastructure</div><div class="s-cite"><b>Academic anchors:</b> Sullivan, Timmermann &amp; White (1999) · MacKinlay (1997) · Brown &amp; Warner (1985) · López de Prado, <em>Advances in Financial Machine Learning</em></div></div>
+    </div>
+    <p class="fw-rule"><b>Literature-backed, not literature-proven:</b> the citations define mechanisms and known failure modes; Alpha Capital re-tests every hypothesis against its own leakage-guarded, cost-aware validation stack.</p>
+  </div>
+</section>
+
+<!-- ── architecture ── -->
+<section class="block" id="architecture">
+  <div class="wrap">
+    <div class="kicker">Architecture</div>
+    <h2>How it works</h2>
+    <p class="lede">An automated, end-to-end pipeline — from six provider integrations to validated, leakage-controlled research artifacts.</p>
+
+    <div class="flow">
+      <div class="flow-row">
+        <div class="node accent">
+          <div class="n-step">Sources</div>
+          <div class="n-title">Polygon · FMP · Nasdaq · SEC EDGAR · Benzinga · Alpaca</div>
+          <div class="n-desc">Market data, reference data, listings, filings, news, and quote/execution evidence.</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="node">
+          <div class="n-step">Ingest</div>
+          <div class="n-title">Automated nightly pipeline</div>
+          <div class="n-desc">A dedicated GCP VM runs idempotent collectors with provider-specific rate limits, retries, and run-status logging.</div>
+          <div class="n-tag">Fail-closed run guards</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="node">
+          <div class="n-step">Store</div>
+          <div class="n-title">PostgreSQL evidence spine</div>
+          <div class="n-desc">Normalized provider payloads, source attempts, row hashes, and run metadata in one lineage-tracked store.</div>
+          <div class="n-tag">2M+ rows · hash provenance</div>
+        </div>
+      </div>
+
+      <div class="flow-arrow v">↓</div>
+
+      <div class="flow-row">
+        <div class="node accent">
+          <div class="n-step">Reconstruct</div>
+          <div class="n-title">Point-in-time universe engine</div>
+          <div class="n-desc">Rebuilds the tradable universe as it existed on each historical date, including delisted and dead companies.</div>
+          <div class="n-tag ok">Survivorship-correct</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="node">
+          <div class="n-step">Model</div>
+          <div class="n-title">Feature contracts + ML rankers</div>
+          <div class="n-desc">Versioned manifests and allowlists ensure the model sees only decision-time features.</div>
+          <div class="n-tag">Leakage-audited predictors</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="node">
+          <div class="n-step">Validate</div>
+          <div class="n-title">Cost-aware walk-forward verdicts</div>
+          <div class="n-desc">Purged splits, quote/slippage labels, cash handling, and JSON/Markdown artifacts before any promotion.</div>
+          <div class="n-tag">Promote only if it survives</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="subhead">Architecture controls</p>
+    <div class="cards">
+      <div class="src"><div class="s-name">Provider evidence</div><div class="s-role">Every provider call records status, source, payload hash, and attempt count, so missing data is never confused with no signal.</div></div>
+      <div class="src"><div class="s-name">Scratch isolation</div><div class="s-role">Heavy rebuilds run in scratch schemas; canonical tables are protected from experimental writes.</div></div>
+      <div class="src"><div class="s-name">Point-in-time clocks</div><div class="s-role">Evidence date, decision timestamp, execution timestamp, and label window are modeled as separate clocks.</div></div>
+      <div class="src"><div class="s-name">Feature contracts</div><div class="s-role">Versioned manifests pin allowed predictors and reject banned forward / full-day / outcome fields.</div></div>
+      <div class="src"><div class="s-name">Reproducible artifacts</div><div class="s-role">Each experiment emits hash-stamped JSON and Markdown reports, plus the event tapes it ran on.</div></div>
+      <div class="src"><div class="s-name">Fail-closed gates</div><div class="s-role">Checksum, row-count, manifest, and lineage mismatches halt the run instead of producing partial results.</div></div>
+    </div>
+    <div class="q">The output of the architecture is not a backtest curve; it is an auditable research record.</div>
+  </div>
+</section>
+
+<!-- ── data ── -->
+<section class="block soft" id="data">
+  <div class="wrap">
+    <div class="kicker">The Data</div>
+    <h2>Six providers, one point-in-time evidence spine</h2>
+    <p class="lede">Alpha Capital normalizes market data, listings, filings, news, and quote evidence into a lineage-tracked PostgreSQL store. Each row is tied back to the provider attempt that produced it, so the system can distinguish a real <em>no signal</em> from missing data, a provider failure, a parser failure, or an intentional exclusion.</p>
+
+    <div class="cards">
+      <div class="src">
+        <div class="s-name">Polygon</div>
+        <div class="s-role"><b>Used for:</b> daily and intraday OHLCV bars for historical replay, decision-time features, and forward path diagnostics.</div>
+        <div class="s-role"><b>Why it matters:</b> intraday timestamps enforce what was knowable before the decision minute.</div>
+      </div>
+      <div class="src">
+        <div class="s-name">Financial Modeling Prep</div>
+        <div class="s-role"><b>Used for:</b> reference data, fundamentals, split-adjusted daily context, and historical company metadata.</div>
+        <div class="s-role"><b>Why it matters:</b> prior-day context and universe reconstruction that don't rely only on today's survivors.</div>
+      </div>
+      <div class="src">
+        <div class="s-name">Nasdaq</div>
+        <div class="s-role"><b>Used for:</b> listing / archive evidence and tradability / universe support.</div>
+        <div class="s-role"><b>Why it matters:</b> reconstructs which securities existed historically, including names that later disappeared.</div>
+      </div>
+      <div class="src">
+        <div class="s-name">SEC EDGAR</div>
+        <div class="s-role"><b>Used for:</b> official filings and company-event evidence.</div>
+        <div class="s-role"><b>Why it matters:</b> issuer and catalyst context, and a basis for poison-news / dilution risk filters.</div>
+      </div>
+      <div class="src">
+        <div class="s-name">Benzinga</div>
+        <div class="s-role"><b>Used for:</b> news and catalyst feed.</div>
+        <div class="s-role"><b>Why it matters:</b> separates price/volume events with real information behind them from pure mechanical churn.</div>
+      </div>
+      <div class="src">
+        <div class="s-name">Alpaca</div>
+        <div class="s-role"><b>Used for:</b> quote and brokerage evidence.</div>
+        <div class="s-role"><b>Why it matters:</b> spread, stale-quote, tradeability, and cost-realistic entry/exit assumptions.</div>
+      </div>
+    </div>
+
+    <p class="subhead">Scale</p>
+    <div class="scale-row">
+      <span class="chip"><b>6</b> provider APIs</span>
+      <span class="chip"><b>2M+</b> lineage-tracked rows</span>
+      <span class="chip"><b>13K+</b> securities reconstructed</span>
+      <span class="chip"><b>30</b>-month replay window</span>
+      <span class="chip"><b>72K+</b> signal observations</span>
+      <span class="chip">delisted / dead companies included</span>
+      <span class="chip">quote / cost evidence before verdicts</span>
+    </div>
+    <p class="uni-note">Parameterizable U.S. equity universe; the Capitulation-Volume Bounce worked example focused on $30M&ndash;$5B small caps.</p>
+
+    <div class="two-col">
+      <div>
+        <p class="subhead">Five accepted corpora</p>
+        <figure class="chart-one"><img loading="lazy" decoding="async" src="chart4_snapshot_acceptance.png" alt="Bar chart of accepted candidate rows per snapshot, falling from 12,883 at 09:35 to 1,060 at 10:30, against the same 2,001,017-row denominator with zero provider errors."><figcaption>Five point-in-time corpora, each reconciled against the same 2,001,017-row denominator with zero active provider errors. Supply thins by the minute as the open passes.</figcaption></figure>
+      </div>
+      <div>
+        <p class="subhead">Data-integrity states</p>
+        <div class="tw"><table class="dtable wrap-cells">
+          <caption>These states are kept separate so bad data cannot silently become a clean negative example.</caption>
+          <thead><tr><th>State</th><th>Meaning</th></tr></thead>
+          <tbody>
+            <tr><td><span class="dot dot-ok"></span>Valid observation</td><td>Fetched, parsed, and normalized successfully.</td></tr>
+            <tr><td><span class="dot dot-red"></span>Provider fetch error</td><td>The API call failed or returned an error; the attempt is recorded, not a silent absence.</td></tr>
+            <tr><td><span class="dot dot-red"></span>Parser / normalization error</td><td>Payload arrived but could not be cleanly mapped to the schema.</td></tr>
+            <tr><td><span class="dot dot-amber"></span>Missing-but-expected</td><td>A source attempt was expected but produced no row.</td></tr>
+            <tr><td><span class="dot dot-gray"></span>Intentional exclusion</td><td>Filtered out by rule (non-common, ETF, ineligible security type).</td></tr>
+            <tr><td><span class="dot dot-ok"></span>No signal / did not qualify</td><td>Clean data that simply did not meet the pattern's conditions.</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </div>
+
+    <p class="subhead">Why this is hard</p>
+    <p>Most retail backtests use today's ticker list and clean historical bars. Alpha Capital instead reconstructs what the market looked like on each historical date, including delisted names, provider gaps, split adjustments, stale quotes, and failed fetches. That is the difference between a chart and an auditable dataset.</p>
+
+    <p class="subhead">The evidence spine, in SQL</p>
+    <p>The point-in-time and fail-closed guarantees are enforced in the queries and the schema, not just described. Two representative examples from the repository:</p>
+    <p class="uni-note"><code>i12_pit_</code> is the internal table prefix for the point-in-time worked-example corpus (the Capitulation-Volume Bounce); the scratch-schema qualifier is omitted below for readability.</p>
+
+    <div class="codeblock">
+      <div class="code-file">engine/scripts/build_i12_pit_event_tape.py · point-in-time evidence reconciliation</div>
+      <pre><code class="language-sql">WITH scoped AS (
+  SELECT i12_pit_candidate_id
+  FROM i12_pit_candidates
+  WHERE is_active IS TRUE
+    AND candidate_status = 'passed'
+    AND decision_date BETWEEN :start_date AND :end_date
+    AND decision_time_label = :decision_time
+    AND path_mode = :path_mode
+), counts AS (
+  SELECT scoped.i12_pit_candidate_id,
+         COUNT(child.i12_pit_quote_replay_id) AS row_count
+  FROM scoped
+  LEFT JOIN i12_pit_quote_replays child
+    ON child.i12_pit_candidate_id = scoped.i12_pit_candidate_id
+   AND child.quote_role = :role
+   AND child.is_active IS TRUE
+  GROUP BY scoped.i12_pit_candidate_id
+)
+SELECT
+  SUM(CASE WHEN row_count = 0 THEN 1 ELSE 0 END) AS missing_count,
+  SUM(CASE WHEN row_count > 1 THEN 1 ELSE 0 END) AS duplicate_count
+FROM counts;</code></pre>
+    </div>
+    <p class="code-cap">Scopes to active, passed candidates inside the decision window, then verifies each required quote role has exactly one active evidence row. Any missing or duplicate count halts the tape build instead of silently producing an ML artifact.</p>
+
+    <div class="codeblock">
+      <div class="code-file">engine/migrations/ · survivorship reconstruction table (condensed from Alembic DDL)</div>
+      <pre><code class="language-sql">CREATE TABLE historical_universe_reconstructions (
+  replay_date        DATE    NOT NULL,
+  normalized_symbol  TEXT    NOT NULL,
+  inclusion_status   TEXT    NOT NULL,
+  delisted_date      DATE,
+  reconstructed      BOOLEAN NOT NULL DEFAULT true,
+  input_hash         TEXT    NOT NULL,
+  output_hash        TEXT    NOT NULL,
+  -- ... lineage, provenance, and job-run columns ...
+  CONSTRAINT ux_historical_universe_recon_date_symbol
+    UNIQUE (replay_date, normalized_symbol)
+);</code></pre>
+    </div>
+    <p class="code-cap">One reconstructed row per (historical date, symbol) — the structural guarantee behind survivorship-correct point-in-time universes, delisted names included. Condensed from the Alembic migration; the production table also carries provenance, lineage, job-run, foreign-key, and index fields.</p>
+
+    <p class="repo-note">The public page and GitHub repository show derived / aggregate artifacts only; raw licensed market data and credentials are excluded.</p>
+  </div>
+</section>
+
+<!-- ── engineering & operations ── -->
+<section class="block" id="engineering">
+  <div class="wrap">
+    <div class="kicker">Engineering &amp; Operations</div>
+    <h2>Built like a small production data platform</h2>
+    <p class="lede">Alpha Capital is not a notebook backtest. It is an automated research system: provider adapters, PostgreSQL schemas, lineage tables, nightly jobs, fail-closed integrity gates, reproducible artifacts, and a test suite around the parts most likely to lie.</p>
+
+    <div class="vstrip">
+      <div class="vc"><div class="vn sm">e2-standard-8</div><div class="vl">dedicated GCP VM · 8 vCPU / 32 GB / 50 GB SSD</div></div>
+      <div class="vc"><div class="vn">2M+</div><div class="vl">lineage-tracked Postgres rows · Supabase Pro / Medium (2-core, 4 GB)</div></div>
+      <div class="vc"><div class="vn">6</div><div class="vl">provider integrations</div></div>
+      <div class="vc"><div class="vn">2,000+</div><div class="vl">automated tests</div></div>
+      <div class="vc"><div class="vn sm">JSON + MD</div><div class="vl">hash-stamped artifact per run</div></div>
+    </div>
+
+    <div class="cards">
+      <div class="src"><div class="s-name">Automated nightly pipeline</div><div class="s-role">Runs unattended on a dedicated Google Cloud VM. Jobs are idempotent and resumable; the VM fast-forwards code only, logs failures, and does not silently skip failed captures.</div></div>
+      <div class="src"><div class="s-name">Provider adapter layer</div><div class="s-role">Polygon, FMP, Nasdaq, SEC EDGAR, Benzinga, and Alpaca adapters normalize heterogeneous schemas behind a consistent evidence model. Provider statuses, retries, rate limits, parser failures, and payload hashes are preserved.</div></div>
+      <div class="src"><div class="s-name">PostgreSQL evidence spine</div><div class="s-role">SQLAlchemy models store source attempts, normalized rows, strategy candidates, feature snapshots, labels, quotes, costs, and validation artifacts. Every derived result can be traced back to provider evidence.</div></div>
+      <div class="src"><div class="s-name">Fail-closed integrity gates</div><div class="s-role">Row-count mismatches, missing source attempts, provider errors, manifest hash mismatches, stale artifacts, incomplete quote/cost rows, and feature-schema violations block promotion instead of becoming warnings.</div></div>
+      <div class="src"><div class="s-name">Reproducible research artifacts</div><div class="s-role">Each major run emits hash-stamped JSON and Markdown artifacts. Scratch experiments are separated from canonical corpora so exploratory work cannot overwrite accepted data.</div></div>
+      <div class="src"><div class="s-name">Test and migration discipline</div><div class="s-role">SQLAlchemy ORM, Alembic migrations, and pytest coverage around loaders, feature contracts, leakage guards, event-tape builders, report generation, and ML manifests. Statement timeouts guard long jobs; rate-limited concurrency protects providers.</div></div>
+    </div>
+
+    <p class="subhead">Failure modes handled</p>
+    <div class="hero-tech">
+      <span>provider timeout</span><span>stale quote</span><span>missing bar</span><span>parser failure</span><span>duplicate active row</span><span>inactive parent with child evidence</span><span>stale report artifact</span><span>feature leakage</span><span>threshold mining</span><span>random row split</span>
+    </div>
+
+    <div class="oracle">
+      <p style="font-weight:700;color:var(--text);margin-bottom:8px;">Why the plumbing matters</p>
+      <p>In market research, bad plumbing creates fake alpha. The engineering work is what prevents missing data, stale artifacts, or future information from becoming a polished but false result.</p>
+    </div>
+
+    <p class="subhead">In the repository</p>
+    <div class="repro">
+      <div class="repro-h">Engineering surface</div>
+      <ul>
+        <li><a href="https://github.com/jebfarneth/alpha-capital/tree/main/engine/alpha/data" target="_blank" rel="noopener noreferrer">engine/alpha/data/</a> <span>· provider adapters and the evidence model</span></li>
+        <li><a href="https://github.com/jebfarneth/alpha-capital/blob/main/engine/alpha/db/models.py" target="_blank" rel="noopener noreferrer">engine/alpha/db/models.py</a> <span>· SQLAlchemy schema and lineage tables</span></li>
+        <li><a href="https://github.com/jebfarneth/alpha-capital/tree/main/engine/migrations" target="_blank" rel="noopener noreferrer">engine/migrations/</a> <span>· Alembic migrations</span></li>
+        <li><a href="https://github.com/jebfarneth/alpha-capital/tree/main/engine/tests" target="_blank" rel="noopener noreferrer">engine/tests/</a> <span>· 2,000+ test suite</span></li>
+      </ul>
+    </div>
+
+    <p class="subhead">Built with</p>
+    <div class="stack">
+      <span class="badge">Python</span>
+      <span class="badge">PostgreSQL</span>
+      <span class="badge">SQLAlchemy</span>
+      <span class="badge">scikit-learn</span>
+      <span class="badge">pandas / NumPy</span>
+      <span class="badge">pytest</span>
+      <span class="badge">Google Cloud</span>
+      <span class="badge">Market-data APIs</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── methodology ── -->
+<section class="block soft" id="methodology">
+  <div class="wrap">
+    <div class="kicker">Methodology · Rigor</div>
+    <h2>The discipline is the product</h2>
+    <p class="lede">Every control below exists to make sure the data cannot quietly lie.</p>
+    <div class="method">
+      <div class="item"><div class="m-k">Point-in-time reconstruction</div><div class="m-v">Features use only data knowable at the decision timestamp — never full-day or future values.</div></div>
+      <div class="item"><div class="m-k">Survivorship correction</div><div class="m-v">The historical universe includes companies that later delisted, merged, or went to zero.</div></div>
+      <div class="item"><div class="m-k">Leakage controls</div><div class="m-v">Full-day and forward values exist only as labels and diagnostics — never as predictors.</div></div>
+      <div class="item"><div class="m-k">Purged / walk-forward validation</div><div class="m-v">Overlapping samples are purged so information cannot leak between train and test.</div></div>
+      <div class="item"><div class="m-k">Cost-aware backtesting</div><div class="m-v">Bid–ask spread, slippage, tradeability, and skipped-to-cash handling are applied before any result is trusted.</div></div>
+      <div class="item"><div class="m-k">Fail-closed philosophy</div><div class="m-v">If lineage hashes, checksums, or row counts don't match, the pipeline refuses to proceed rather than write bad data.</div></div>
+      <div class="item"><div class="m-k">Reproducible research artifacts</div><div class="m-v">Every experiment emits a hash-stamped JSON + Markdown record; any result can be re-derived and independently audited.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── leakage / integrity deep-dive ── -->
+<section class="block" id="integrity">
+  <div class="wrap">
+    <div class="kicker">Integrity · Adversarial Research Controls</div>
+    <h2>Every result is treated as suspect until it survives the audit.</h2>
+    <p class="lede">Alpha Capital does not trust a backtest because it looks good. Each result is forced through leakage checks, source-row reconciliation, cost realism, walk-forward validation, threshold-mining tests, and independent reruns. A strategy can advance only if the data, the model, and the accounting all agree.</p>
+
+    <div class="cards">
+      <div class="src"><div class="s-name">Predictor firewall</div><div class="s-role">Feature manifests allow only decision-time fields. Forward bars, full-day volume, same-day close, exits, labels, MFE/MAE, and outcome fields are rejected before training.</div></div>
+      <div class="src"><div class="s-name">Label separation</div><div class="s-role">Future data is allowed only to define outcomes. It can create labels, diagnostics, and exit studies, but it cannot enter the predictor vector.</div></div>
+      <div class="src"><div class="s-name">Source-row reconciliation</div><div class="s-role">Candidate counts, source attempts, child quote/cost rows, active/inactive parents, and stale artifacts are reconciled before a corpus is accepted.</div></div>
+      <div class="src"><div class="s-name">Adversarial audit workflow</div><div class="s-role">Promising results are attacked on purpose: rerun reports, inspect artifacts, hunt for stale files, verify row counts, mutate assumptions, and try to refute the conclusion before accepting it.</div></div>
+      <div class="src"><div class="s-name">sklearn / ML reproducibility</div><div class="s-role">Diagnostics use explicit Python and scikit-learn experiments against frozen feature sets and held-out windows, not intuition or chart-fitting.</div></div>
+      <div class="src"><div class="s-name">Threshold-mining defense</div><div class="s-role">Threshold ladders and top-K books are split into separate selection and evaluation windows; post-hoc out-of-sample maxima are marked diagnostic, not tradeable.</div></div>
+      <div class="src"><div class="s-name">Cost realism</div><div class="s-role">Bid&ndash;ask spread, quote age, stale quotes, volume participation, slippage, and skipped-to-cash handling are applied before any verdict.</div></div>
+      <div class="src"><div class="s-name">Fail-closed gates</div><div class="s-role">Manifest hashes, row counts, artifact checksums, source-provider errors, and missing-source counts block promotion instead of becoming warnings.</div></div>
+    </div>
+
+    <p class="subhead">Multiple-testing discipline</p>
+    <div class="oracle">
+      <p>Raw backtest returns are not enough. A strategy can look profitable simply because enough variants, thresholds, snapshots, and filters were tried. Alpha Capital treats research as a multiple-testing problem: validation emphasizes walk-forward splits, bootstrap refutation, and deflated-Sharpe-style controls before any result is considered credible.</p>
+      <p class="cite-line"><b>Academic anchors:</b> Sharpe (risk-adjusted performance) · Lo (2002), "The Statistics of Sharpe Ratios" · Bailey &amp; López de Prado (2014), "The Deflated Sharpe Ratio" · Sullivan, Timmermann &amp; White (1999), data-snooping Reality Check.</p>
+    </div>
+
+    <div class="q">What the audit caught: the worked example originally looked attractive because full-day volume had leaked into candidate selection. The integrity layer caught that the edge was inflated by information unknowable at the entry minute; after point-in-time reconstruction, quote/cost labels, and walk-forward validation, the strategy was marked <strong>no-go</strong>. The system is valuable precisely because it can kill false alpha before any capital is at risk.</div>
+
+    <p class="subhead">Audit trail</p>
+    <div class="flist">
+      <div class="fi"><b>Five point-in-time corpora</b> accepted only after active-denominator, source, provider, and child-row checks.</div>
+      <div class="fi"><b>Five-snapshot event tape</b> verified row-by-row against the frozen predictor allowlist.</div>
+      <div class="fi"><b>Evaluate-only ML run</b> permitted; promotion blocked at the gate.</div>
+      <div class="fi"><b>Threshold ladder</b> corrected once out-of-sample threshold mining was identified.</div>
+      <div class="fi"><b>Walk-forward gate</b> returned no-go, and that verdict was preserved as the result.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ml layer ── -->
+<section class="block soft" id="ml">
+  <div class="wrap">
+    <div class="kicker">Machine Learning</div>
+    <h2>The ML layer: score candidates, then let validation decide</h2>
+    <p class="lede">Alpha Capital uses scikit-learn models as selection engines, not as proof of an edge. A model scores each candidate using only point-in-time features; the book is then judged out-of-sample after spread, slippage, tradeability, and cash handling.</p>
+
+    <div class="mlflow-wrap"><div class="mlflow">
+      <div class="step"><div class="st-n">Event tape</div><div class="st-p">five-snapshot, point-in-time</div></div>
+      <div class="arr">→</div>
+      <div class="step"><div class="st-n">Feature manifest</div><div class="st-p">frozen, decision-time only</div></div>
+      <div class="arr">→</div>
+      <div class="step"><div class="st-n">Train / embargo / test</div><div class="st-p">purged walk-forward split</div></div>
+      <div class="arr">→</div>
+      <div class="step"><div class="st-n">Gradient-boosted score</div><div class="st-p">sklearn HistGBR</div></div>
+      <div class="arr">→</div>
+      <div class="step"><div class="st-n">Top-K / thresholded book</div><div class="st-p">K is a cap; cash allowed</div></div>
+      <div class="arr">→</div>
+      <div class="step"><div class="st-n">Promotion gate</div><div class="st-p">positive OOS economics after cost, tail, bootstrap &amp; walk-forward</div></div>
+    </div></div>
+
+    <p class="subhead">Model card</p>
+    <div class="modelcard">
+      <div class="mc-row"><div class="mc-k">Task</div><div class="mc-v">Score and rank candidate stock/date events by expected forward return; construct top-K or thresholded books from model scores.</div></div>
+      <div class="mc-row"><div class="mc-k">Model</div><div class="mc-v">scikit-learn <code>HistGradientBoostingRegressor</code>; regularized with min leaf size, L2, and early stopping.</div></div>
+      <div class="mc-row"><div class="mc-k">Inputs</div><div class="mc-v">19 frozen point-in-time predictors, known at the decision timestamp.</div></div>
+      <div class="mc-row"><div class="mc-k">Labels</div><div class="mc-v">Quote- and cost-aware modeled forward returns. Future / full-day data defines outcomes only; it is never a predictor.</div></div>
+      <div class="mc-row"><div class="mc-k">Split</div><div class="mc-v">Train Jan 2024 – Jun 2025 · embargo Jul 2025 · OOS Aug 2025 – Jun 2026.</div></div>
+      <div class="mc-row"><div class="mc-k">Rows</div><div class="mc-v">16,853 train · 883 embargo · 8,751 OOS candidates.</div></div>
+      <div class="mc-row"><div class="mc-k">Book construction</div><div class="mc-v">Rank by model score, take the top-K or thresholded candidates; skipped / untradeable names become cash, not dropped rows.</div></div>
+      <div class="mc-row"><div class="mc-k">Promotion</div><div class="mc-v"><span class="badge-nogo">Blocked</span>Measurable separation versus naive baselines, but the cost-aware OOS book did not clear zero.</div></div>
+    </div>
+
+    <p class="subhead">OOS readout</p>
+    <div class="tw"><table class="dtable wrap-cells">
+      <tbody>
+        <tr><td>OOS candidates</td><td>8,751</td></tr>
+        <tr><td>Predictor fields</td><td>19</td></tr>
+        <tr><td>Model family</td><td>HistGradientBoosting (HGBR)</td></tr>
+        <tr><td>Validation</td><td>purged / embargoed walk-forward</td></tr>
+        <tr><td>Result</td><td>measurable statistical separation; economic promotion blocked</td></tr>
+        <tr><td>Economic verdict</td><td class="neg">no-go after spread / slippage</td></tr>
+        <tr><td>Promotion</td><td class="neg">blocked</td></tr>
+      </tbody>
+    </table></div>
+
+    <figure class="chart-one"><img loading="lazy" decoding="async" src="chart6_ml_lift.png" alt="Grouped bars: for labels >0, >=5%, and >=20%, the model's top-10% slice beats the base rate while the bottom 10% is near zero."><figcaption>The model found rank separation, but rank separation did not translate into a promoted strategy after costs.</figcaption></figure>
+
+    <p class="subhead">Research-shadow prototypes: the signal was real enough to pursue</p>
+    <p class="shadow-badges"><span class="badge-shadow">Research-shadow only</span><span class="badge-nogo">Not promoted</span></p>
+    <p>Before the final point-in-time, cost-aware gate, I ran several research-shadow ML tests to check whether the model could rank candidate events better than hand rules. These were not production claims: some were PIT-deferred or prototype runs, and later validation was stricter. But they showed meaningful rank separation and justified building the full leakage-controlled pipeline.</p>
+    <div class="shadow-grid">
+      <div class="shadow-card">
+        <div class="sc-h">2026-06-15 · Stage-1 ranker</div>
+        <div class="sc-meta">sklearn HistGradientBoostingRegressor · 10,012 confirmed events · purged walk-forward CV (PIT-deferred corpus)</div>
+        <ul class="sc-list">
+          <li><b>Fold 1</b> &nbsp;2.15&times; top-decile lift · +4.85% top decile vs +2.26% baseline · 55.4% win</li>
+          <li><b>Fold 2</b> &nbsp;1.94&times; lift · +4.33% vs +2.24% · 59.3% win</li>
+          <li><b>2026 subset</b> &nbsp;2.2&times; lift · 64% win · rank IC +0.065</li>
+        </ul>
+      </div>
+      <div class="shadow-card">
+        <div class="sc-h">2026-06-12 · classifier prototype</div>
+        <div class="sc-meta">logistic / GBM / shallow random forest · 688 out-of-time rows · OOT AUC 0.60&ndash;0.63</div>
+        <ul class="sc-list">
+          <li><b>RF top-25%</b> &nbsp;+8.81% mean · +6.69% median · 68.0% win</li>
+          <li><b>RF top-10%</b> &nbsp;+8.64% mean · +7.07% median · 73.5% win</li>
+          <li><b>Bottom-25%</b> &nbsp;&minus;2.45% mean (the avoid-side is real)</li>
+        </ul>
+      </div>
+      <div class="shadow-card">
+        <div class="sc-h">Pooled day-0 patterns · ML-rank thesis</div>
+        <div class="sc-meta">two small-cap day-0 patterns (breakout momentum + capitulation bounce) · 3,744 pooled fires · out-of-fold 5-fold logistic</div>
+        <ul class="sc-list">
+          <li><b>OOF AUC</b> &nbsp;0.601 · ML top-67% +4.25% mean vs +2.74% take-all</li>
+          <li><b>Deciles</b> &nbsp;top +7.35% · bottom &minus;2.90%</li>
+          <li><b>ML-rank K=10</b> &nbsp;+5.75% vs firing-order K=10 +2.36%</li>
+        </ul>
+      </div>
+    </div>
+    <p class="shadow-caveat">These were research-shadow evidence, not promotion evidence. The later point-in-time, survivorship, spread, slippage, and walk-forward gates reduced or blocked the strategy. That is the point of the platform: promising models are not allowed to graduate unless the full evidence chain survives.</p>
+
+    <p class="subhead">Oracle diagnostic: predicting the forbidden full-day-volume signal</p>
+    <div class="oracle">
+      <p>The original Capitulation-Volume Bounce rule used full-day volume, which is not knowable at entry and is therefore banned as a live predictor. I turned that leaked rule into an oracle label and asked a stricter question: can point-in-time morning features predict which names will later satisfy the full-day-volume condition? This was a read-only scikit-learn diagnostic, fit in memory only, with no registry, model, or scoring writes.</p>
+      <div class="oracle-metrics">
+        <div class="om"><div class="om-n">8,025</div><div class="om-l">pooled OOS rows</div></div>
+        <div class="om"><div class="om-n">3,307</div><div class="om-l">positives</div></div>
+        <div class="om"><div class="om-n">0.751</div><div class="om-l">AUC (pooled)</div></div>
+        <div class="om"><div class="om-n">0.700</div><div class="om-l">avg. precision</div></div>
+        <div class="om"><div class="om-n">RF</div><div class="om-l">random forest</div></div>
+      </div>
+      <p class="oracle-verdict">Morning structure is partially predictive of the future condition: per-snapshot AUC runs 0.59 to 0.67, and 0.751 pooled across the five snapshots. Some of the forbidden full-day-volume behavior is genuinely inferable from what was knowable at the open. But predictive separation is not a tradeable edge: the point-in-time student book still printed a negative cost-aware daily mean and failed the loser/tail and walk-forward checks, so promotion stayed blocked.</p>
+    </div>
+
+    <figure class="chart-one"><img loading="lazy" decoding="async" src="chart9_oracle_vs_pit.png" alt="Three bars: oracle teacher K=8 mean positive (uses leaked label), PIT student K=8 mean negative, raw baseline negative."><figcaption>Full-day volume was useful as an oracle label, but not live-knowable at entry. The PIT student could partly predict oracle membership, but not enough to clear the economic gate.</figcaption></figure>
+
+    <p class="subhead">Predictors vs. labels: the firewall</p>
+    <div class="firewall">
+      <div class="fw-col fw-in">
+        <div class="fw-h">Predictors <span>· go in · as-of decision</span></div>
+        <ul>
+          <li>Prior daily context (off-high / off-low, momentum, σ20)</li>
+          <li>Opening gap &amp; opening-range structure</li>
+          <li>Early intraday return / path</li>
+          <li>Pre-decision volume participation</li>
+          <li>Spread &amp; liquidity fields</li>
+        </ul>
+      </div>
+      <div class="fw-col fw-out">
+        <div class="fw-h">Labels <span>· outcomes only · never features</span></div>
+        <ul>
+          <li>Same-day &amp; next-open returns</li>
+          <li>Full-day price-path diagnostics</li>
+          <li>Maximum favorable / adverse excursion (MFE / MAE)</li>
+          <li>Modeled entry/exit outcomes and quote/cost returns</li>
+        </ul>
+      </div>
+    </div>
+    <p class="fw-rule"><b>The rule:</b> future and full-day data can <em>define</em> an outcome to predict, but can never enter the feature vector. Any predictor that crosses the line is rejected before training (the leakage audit below enforces it).</p>
+    <p class="subhead">Implementation proof</p>
+    <p>These snippets aren't decorative; they're the enforcement points in the repository's real scikit-learn pipeline, not an AI simulation or notebook toy:</p>
+    <p class="uni-note"><code>I12</code> is the codebase's internal name for the Capitulation-Volume Bounce, so it appears in the constant names and file paths below.</p>
+
+    <div class="codeblock">
+      <div class="code-file">alpha/jobs/train_model.py</div>
+      <pre><code class="language-python">def _new_gbrt_model(*, max_iter, random_state, model_params=None):
+    from sklearn.ensemble import HistGradientBoostingRegressor
+
+    params = dict(model_params or {})
+    return HistGradientBoostingRegressor(
+        max_iter=max_iter,
+        min_samples_leaf=int(params.get("min_samples_leaf", DEFAULT_MIN_SAMPLES_LEAF)),
+        l2_regularization=float(params.get("l2_regularization", DEFAULT_L2_REGULARIZATION)),
+        early_stopping=_bool_model_param(params.get("early_stopping"), DEFAULT_EARLY_STOPPING),
+        random_state=random_state,
+    )</code></pre>
+    </div>
+    <p class="code-cap">The estimator: a histogram-based gradient-boosted regressor, regularized (leaf-size + L2) and early-stopped to resist overfitting.</p>
+
+    <div class="codeblock">
+      <div class="code-file">alpha/ml/model_features.py · leakage audit</div>
+      <pre><code class="language-python">FORBIDDEN_ZONE_TOKENS = (
+    "forward", "post_signal", "post-signal",
+    "outcome", "label", "future", "exit",
+)
+# A predictor is rejected before training if it names a banned
+# (projected / full-day / outcome) path, or isn't on the frozen allowlist.
+if locator in I12_PIT_BANNED_FEATURE_PATHS:
+    raise FeatureSelectionError(
+        "I12 PIT-clean feature schema requested a banned projected, "
+        f"full-day, or outcome field: {field!r}"
+    )
+if locator not in I12_PIT_0940_ALLOWED_FEATURE_PATHS:
+    raise FeatureSelectionError(
+        "I12 PIT candidate feature is not in the frozen inclusion "
+        f"allowlist: {field!r}"
+    )</code></pre>
+    </div>
+    <p class="code-cap">Look-ahead made structurally impossible: any feature touching a forward/outcome zone, or absent from the frozen allowlist, raises and halts training, rather than silently inflating a result.</p>
+
+    <div class="codeblock">
+      <div class="code-file">alpha/ml/cv.py · purged, embargoed walk-forward</div>
+      <pre><code class="language-python">embargo = max(horizon_sessions, embargo_sessions)
+train_cutoff = min(test_positions) - embargo
+test_identities = {
+    _security_identity_key(row)
+    for row in examples if row.signal_date in set(block)
+}
+# Train rows must be strictly earlier than the test block (date purge)
+# AND share no security with it (cluster purge), so nothing overlaps.
+train_indices = [
+    idx
+    for idx, row in enumerate(examples)
+    if date_to_position[row.signal_date] &lt; train_cutoff
+    and _security_identity_key(row) not in test_identities
+]</code></pre>
+    </div>
+    <p class="code-cap">The CV split is both date-purged (train strictly precedes test by the full horizon) and cluster-purged (no security appears on both sides), closing the two ways a time-series backtest usually leaks.</p>
+
+    <p class="subhead">Reproducibility trace</p>
+    <div class="repro">
+      <div class="repro-h">Where this lives in the repository</div>
+      <ul>
+        <li><a href="https://github.com/jebfarneth/alpha-capital/blob/main/engine/alpha/jobs/train_model.py" target="_blank" rel="noopener noreferrer">engine/alpha/jobs/train_model.py</a> <span>· trainer, estimator, splits</span></li>
+        <li><a href="https://github.com/jebfarneth/alpha-capital/blob/main/engine/alpha/ml/model_features.py" target="_blank" rel="noopener noreferrer">engine/alpha/ml/model_features.py</a> <span>· feature contracts + leakage audit</span></li>
+        <li><a href="https://github.com/jebfarneth/alpha-capital/blob/main/engine/alpha/ml/cv.py" target="_blank" rel="noopener noreferrer">engine/alpha/ml/cv.py</a> <span>· purged / embargoed walk-forward CV</span></li>
+        <li><a href="https://github.com/jebfarneth/alpha-capital/blob/main/engine/alpha/ml/manifest_loader.py" target="_blank" rel="noopener noreferrer">engine/alpha/ml/manifest_loader.py</a> <span>· loads and leakage-audits the manifest at runtime</span></li>
+        <li><a href="https://github.com/jebfarneth/alpha-capital/tree/main/engine/alpha/ml/manifests" target="_blank" rel="noopener noreferrer">engine/alpha/ml/manifests/</a> <span>· frozen feature allowlist + manifest</span></li>
+        <li>artifacts/stage0/i12_pit_oracle_full_day_volume_labels_5snap.md <span>· local audit artifact for the oracle diagnostic (derived data, not committed)</span></li>
+      </ul>
+    </div>
+
+    <p>The honest read: the model found measurable rank separation versus naive baselines, but the book still failed the economic bar after spread, slippage, and walk-forward validation. A model that scores better than chance yet loses to cost is not a tradeable edge; the platform is built to report that, not bury it.</p>
+  </div>
+</section>
+
+<!-- ── key findings / integrity lesson ── -->
+<section class="block" id="findings">
+  <div class="wrap">
+    <div class="kicker">Worked Example · Falsification Case Study</div>
+    <h2>A promising signal that the platform refused to promote</h2>
+    <p class="lede">The strongest proof of the system was not a winning chart. It was a clean no-go decision on my own leading strategy after the data controls caught what the naive backtest missed.</p>
+
+    <p class="subhead">Case file</p>
+    <div class="modelcard">
+      <div class="mc-row"><div class="mc-k">Pattern</div><div class="mc-v">Capitulation-Volume Bounce</div></div>
+      <div class="mc-row"><div class="mc-k">Universe</div><div class="mc-v">U.S. small caps, roughly $30M&ndash;$5B market cap.</div></div>
+      <div class="mc-row"><div class="mc-k">Hypothesis</div><div class="mc-v">Distressed names down 50%+ from 52-week highs can bounce after capitulation volume.</div></div>
+      <div class="mc-row"><div class="mc-k">Data window</div><div class="mc-v">Jan 2024 &ndash; Jun 2026 (30 months).</div></div>
+      <div class="mc-row"><div class="mc-k">Signals</div><div class="mc-v">13,839 unique ticker/date events · 26,487 five-snapshot rows.</div></div>
+      <div class="mc-row"><div class="mc-k">Entry snapshots</div><div class="mc-v">09:35 · 09:40 · 09:45 · 10:00 · 10:30.</div></div>
+      <div class="mc-row"><div class="mc-k">Final decision</div><div class="mc-v"><span class="badge-nogo">No-go</span>Not promoted; a fail-closed research decision.</div></div>
+    </div>
+
+    <p class="subhead">What changed from naive to real</p>
+    <div class="firewall">
+      <div class="fw-col fw-out">
+        <div class="fw-h">Naive version <span>· flattering, but leaked</span></div>
+        <ul>
+          <li>Used full-day volume as a selector</li>
+          <li>Assumed cleaner fills than thin names actually offer</li>
+          <li>Looked economically attractive</li>
+        </ul>
+      </div>
+      <div class="fw-col fw-in">
+        <div class="fw-h">Production-grade version <span>· point-in-time, cost-real</span></div>
+        <ul>
+          <li>Replaced full-day knowledge with point-in-time morning snapshots</li>
+          <li>Reconstructed a survivorship-correct universe including dead / delisted names</li>
+          <li>Applied bid&ndash;ask spread, slippage, tradeability, and cash handling</li>
+          <li>Used purged / walk-forward out-of-sample validation</li>
+          <li>Blocked promotion when the economics failed</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="q">The critical leak was full-day volume: the original screen knew at 4 p.m. which names had sustained volume, but a live system at 9:40 does not. In the rebuilt tape, full-day volume is allowed only as an oracle label and diagnostic, never as a predictor. Closing that single leak turned a flattering backtest into a cost-aware no-go: a false positive caught before deployment.</div>
+
+    <div class="charts">
+      <figure class="chart">
+        <img loading="lazy" decoding="async" src="chart1_backtest.png" alt="Modeled out-of-sample equity curves after cost controls; both the ML-ranked book and the naive baseline end below $1.">
+        <figcaption>Modeled OOS equity curves after cost controls; this was never live capital.</figcaption>
+      </figure>
+      <figure class="chart">
+        <img loading="lazy" decoding="async" src="chart2_coverage.png" alt="Monthly count of signals fired across the full sample; 13,839 total.">
+        <figcaption>Signal coverage across the full sample.</figcaption>
+      </figure>
+      <figure class="chart">
+        <img loading="lazy" decoding="async" src="chart3_waterfall.png" alt="Mean book return per day falling from a gross-looking positive to a cost-aware negative as each correction is applied.">
+        <figcaption>Correction waterfall: gross-looking edge to cost-aware no-go.</figcaption>
+      </figure>
+    </div>
+
+    <div class="oracle">
+      <p style="font-weight:700;color:var(--text);margin-bottom:8px;">Why this matters</p>
+      <p>Most backtests fail because they accidentally let future information or impossible execution into the result. This case study shows the opposite workflow: start with a plausible signal, rebuild it point-in-time, charge realistic costs, test it out-of-sample, and accept the verdict. The platform preserved integrity over a flattering backtest.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── validation battery ── -->
+<section class="block soft" id="validation">
+  <div class="wrap">
+    <div class="kicker">Validation · Gate System</div>
+    <h2>A result advances only if every gate agrees</h2>
+    <p class="lede">The platform separates validation into two decisions: whether the data is trustworthy, and whether the strategy is tradeable. For the worked example, the data passed; the strategy did not. That distinction is the point.</p>
+
+    <div class="gateflow">
+      <div class="gstep"><div class="gn">Data corpus</div><span class="badge-go">Go</span></div>
+      <div class="gstep"><div class="gn">Event tape</div><span class="badge-go">Go</span></div>
+      <div class="gstep"><div class="gn">Feature contract</div><span class="badge-go">Go</span></div>
+      <div class="gstep"><div class="gn">Model evaluation</div><span class="badge-eval">Evaluated</span></div>
+      <div class="gstep"><div class="gn">Economic gate</div><span class="badge-nogo">No-go</span></div>
+      <div class="gstep"><div class="gn">Promotion</div><span class="badge-nogo">Blocked</span></div>
+    </div>
+
+    <p class="ghead"><span class="gt">Group A · Data &amp; corpus gates</span><span class="badge-go">Passed</span></p>
+    <div class="cards">
+      <div class="src"><div class="s-name">Five point-in-time corpora accepted</div><div class="s-role">09:35, 09:40, 09:45, 10:00, and 10:30 all reconciled to the expected active denominator; active provider errors cleared.</div></div>
+      <div class="src"><div class="s-name">Survivorship reconstruction</div><div class="s-role">Universe rebuilt as-of each historical date, including dead and delisted names.</div></div>
+      <div class="src"><div class="s-name">Source-row reconciliation</div><div class="s-role">Candidate rows, source attempts, quote/cost child rows, active/inactive parents, and stale artifacts reconciled before use.</div></div>
+      <div class="src"><div class="s-name">Quote/cost completeness</div><div class="s-role">Passed candidates required complete quote and cost evidence before report acceptance.</div></div>
+    </div>
+
+    <p class="ghead"><span class="gt">Group B · Feature &amp; leakage gates</span><span class="badge-go">Passed</span></p>
+    <div class="cards">
+      <div class="src"><div class="s-name">Frozen predictor allowlist</div><div class="s-role">The event-tape predictor vector held exactly the allowed fields; extra or missing fields block training.</div></div>
+      <div class="src"><div class="s-name">Predictor / label firewall</div><div class="s-role">Full-day volume, next-open returns, MFE/MAE, exits, and future data live only as labels and diagnostics.</div></div>
+      <div class="src"><div class="s-name">Purged / embargoed split</div><div class="s-role">Train Jan 2024 – Jun 2025; embargo Jul 2025; OOS Aug 2025 – Jun 2026. Random row split forbidden.</div></div>
+      <div class="src"><div class="s-name">Multi-snapshot timing</div><div class="s-role">Five entry snapshots were tested point-in-time; no convenient fill was assumed.</div></div>
+    </div>
+
+    <p class="ghead"><span class="gt">Group C · Economic &amp; promotion gates</span><span class="badge-nogo">Failed</span></p>
+    <div class="cards">
+      <div class="src"><div class="s-name">Cost-aware OOS book</div><div class="s-role">The same-day K=8 book stayed negative after spread and slippage.</div></div>
+      <div class="src"><div class="s-name">Bootstrap significance</div><div class="s-role">The same-day mean CI was fully below zero, so the result did not clear statistical or economic zero.</div></div>
+      <div class="src"><div class="s-name">Threshold-mining defense</div><div class="s-role">A post-hoc positive threshold pocket was found, then rejected by a forward-valid walk-forward threshold gate.</div></div>
+      <div class="src"><div class="s-name">Demand-quality rescue</div><div class="s-role">Additional pre-decision demand-quality features improved some diagnostics but did not flip the strict walk-forward verdict.</div></div>
+    </div>
+
+    <p class="subhead">Forward-valid gate evidence</p>
+    <div class="chart-row">
+      <figure class="chart-one"><img loading="lazy" decoding="async" src="chart8_threshold_mining.png" alt="Three bars: validation-selected q0.60 negative, OOT-best mined q0.75 positive but post-hoc, forward-valid gate negative."><figcaption>A tempting positive pocket was found by mining the test set (q0.75), then rejected: the honest validation-selected threshold and the forward-valid gate are both negative.</figcaption></figure>
+      <figure class="chart-one"><img loading="lazy" decoding="async" src="chart7_walk_forward_monthly.png" alt="Monthly same-day account mean bars, Aug 2025 to Jun 2026; only two months positive, aggregate negative."><figcaption>Forward-valid threshold selection failed: 2 of 11 months positive, aggregate mean negative.</figcaption></figure>
+    </div>
+
+    <div class="oracle">
+      <p style="font-weight:700;color:var(--text);margin-bottom:8px;">Final validation decision</p>
+      <p>Data, tape, and model evaluation: <strong>GO</strong>. Strategy promotion: <strong>NO-GO</strong>. The pipeline did not fail; it did its job by blocking a flattering but non-tradeable result.</p>
+    </div>
+
+    <p class="repo-note">Representative artifacts: <code>i12_pit_stage1_analysis_5snap_3f5ed25.json</code> · <code>i12_pit_0940_walk_forward_threshold_gate_3f5ed25.json</code> · <code>i12_pit_oracle_full_day_volume_labels_5snap_3f5ed25.json</code>.</p>
+  </div>
+</section>
+
+<!-- ── results in full ── -->
+<section class="block" id="results">
+  <div class="wrap">
+    <div class="kicker">Results · Cost-Aware Verdict</div>
+    <h2>The model helped, but the book still failed the economic gate</h2>
+    <p class="lede">The ranker improved on every naive baseline, yet the same-day book still lost money after spread and slippage. Same-day (flat by close) is the primary verdict; next-open appears only as a comparison. Every figure is modeled, cost-aware, and out-of-sample; not live P&amp;L.</p>
+
+    <div class="vstrip">
+      <div class="vc"><div class="vn">−0.337%</div><div class="vl">same-day K=8 book, mean per day</div></div>
+      <div class="vc"><div class="vn sm">[−0.607, −0.071]</div><div class="vl">block-bootstrap 90% CI (% per day); fully below zero</div></div>
+      <div class="vc"><div class="vn">41.9%</div><div class="vl">positive sessions (of 222)</div></div>
+      <div class="vc"><div class="vn">Blocked</div><div class="vl">promotion decision</div></div>
+    </div>
+
+    <p class="subhead">Sample &amp; split</p>
+    <div class="modelcard">
+      <div class="mc-row"><div class="mc-k">Full corpus</div><div class="mc-v">Jan 2024 – Jun 2026 · 13,839 unique ticker/date identities · 26,487 five-snapshot event rows.</div></div>
+      <div class="mc-row"><div class="mc-k">Train</div><div class="mc-v">Jan 2024 – Jun 2025 · 16,853 rows.</div></div>
+      <div class="mc-row"><div class="mc-k">Embargo</div><div class="mc-v">Jul 2025 · 883 rows.</div></div>
+      <div class="mc-row"><div class="mc-k">Held-out OOS</div><div class="mc-v">Aug 2025 – Jun 2026 · 8,751 rows · 222 sessions.</div></div>
+      <div class="mc-row"><div class="mc-k">Basis</div><div class="mc-v">Modeled, cost-aware, out-of-sample; never live capital.</div></div>
+    </div>
+
+    <p class="subhead">Primary policy: same-day K=8 book</p>
+    <p>The live policy ranks each session's candidates by model score and takes up to <strong>K=8</strong>. K is a cap, not a forced-deployment mandate: skipped or untradeable names become cash, not dropped rows. "Same-day" means flat by the close (a same-day modeled exit), the strictest and most live-like basis, so it is the primary verdict.</p>
+    <div class="tw"><table class="dtable">
+      <caption>Same-day, cost-aware, out-of-sample (222 sessions). The model book posts the least-negative mean of the four; every policy still stays below zero after cost.</caption>
+      <thead><tr><th>Policy</th><th class="num">Mean / day</th><th class="num">Median / day</th><th class="num">Positive</th><th class="num">Max DD</th><th>Verdict</th></tr></thead>
+      <tbody>
+        <tr><td>ML-ranked K=8 book</td><td class="num neg">−0.337%</td><td class="num neg">−0.514%</td><td class="num">41.9%</td><td class="num neg">−69.6%</td><td class="neg">No-go</td></tr>
+        <tr><td>Raw detector baseline</td><td class="num neg">−0.362%</td><td class="num neg">−0.592%</td><td class="num">42.3%</td><td class="num neg">−66.1%</td><td class="neg">No-go</td></tr>
+        <tr><td>Persistence-only baseline</td><td class="num neg">−0.567%</td><td class="num neg">−0.468%</td><td class="num">43.2%</td><td class="num neg">−75.5%</td><td class="neg">No-go</td></tr>
+        <tr><td>Liquidity / spread-only baseline</td><td class="num neg">−0.683%</td><td class="num neg">−0.966%</td><td class="num">38.7%</td><td class="num neg">−81.7%</td><td class="neg">No-go</td></tr>
+      </tbody>
+    </table></div>
+    <p><strong>Held-out candidate rows (8,751 OOS rows):</strong> mean <strong>−0.249%</strong> per event · median <strong>0.00%</strong> · <strong>36.1%</strong> win rate. The typical event went nowhere net of cost; the return that exists sits in a thin right tail the ranker cannot reliably pre-select.</p>
+    <p>The takeaway is precise: the ML-ranked book beats all three baselines on mean (−0.337% vs −0.362% / −0.567% / −0.683%), so the model did reduce bad selection. But beating weak baselines is not the bar; same-day economics stay negative after cost, the bootstrap CI is fully below zero, and promotion is blocked.</p>
+
+    <p class="subhead">Next-open comparison</p>
+    <div class="oracle">
+      <p>Holding to the next open did not rescue the signal. It softened the mean loss to <strong>−0.252%/day</strong> (median −0.413%, 43.2% positive sessions, max drawdown −66.9%), but the block-bootstrap 90% CI was <strong>[−0.619%, +0.100%]</strong>; it still crossed zero, so promotion remained blocked.</p>
+    </div>
+    <div class="tw"><table class="dtable">
+      <caption>Monthly mean daily return, next-open book (comparison), cost-aware, out-of-sample. Strong out of the gate, then gave it back through the winter.</caption>
+      <thead><tr><th>Month</th><th class="num">Mean / day</th><th>Month</th><th class="num">Mean / day</th></tr></thead>
+      <tbody>
+        <tr><td>Aug ’25</td><td class="num pos">+1.02%</td><td>Feb ’26</td><td class="num neg">−1.73%</td></tr>
+        <tr><td>Sep ’25</td><td class="num pos">+0.29%</td><td>Mar ’26</td><td class="num neg">−0.59%</td></tr>
+        <tr><td>Oct ’25</td><td class="num neg">−0.63%</td><td>Apr ’26</td><td class="num pos">+0.08%</td></tr>
+        <tr><td>Nov ’25</td><td class="num neg">−0.03%</td><td>May ’26</td><td class="num pos">+0.05%</td></tr>
+        <tr><td>Dec ’25</td><td class="num neg">−1.00%</td><td>Jun ’26</td><td class="num neg">−0.81%</td></tr>
+        <tr><td>Jan ’26</td><td class="num pos">+0.40%</td><td></td><td class="num"></td></tr>
+      </tbody>
+    </table></div>
+
+    <p class="repo-note">Source artifact: <code>engine/artifacts/stage0/i12_pit_stage1_analysis_5snap_3f5ed25.json</code> (local; derived data, not committed).</p>
+  </div>
+</section>
+
+<!-- ── decision timing / multi-snapshot PIT ── -->
+<section class="block soft" id="timing">
+  <div class="wrap">
+    <div class="kicker">Point-in-Time · Entry Timing</div>
+    <h2>Five decision timestamps, not one convenient fill</h2>
+    <p class="lede">Every candidate was evaluated at five point-in-time decision timestamps: <strong>09:35, 09:40, 09:45, 10:00, and 10:30</strong>. The point is not to cherry-pick the best timestamp after the fact; it is to test whether a signal survives realistic entry timing rather than one convenient, assumed fill.</p>
+    <div class="tw"><table class="dtable">
+      <caption>Cost-aware same-day outcomes by decision snapshot. OOS rows drive the performance columns; full accepted rows show total corpus supply.</caption>
+      <thead><tr><th>Snapshot</th><th class="num">Full accepted</th><th class="num">OOS rows</th><th class="num">Same-day mean</th><th class="num">Median</th><th class="num">Win rate</th></tr></thead>
+      <tbody>
+        <tr><td>09:35</td><td class="num">12,883</td><td class="num">4,223</td><td class="num neg">−0.246%</td><td class="num">0.00%</td><td class="num">33.4%</td></tr>
+        <tr><td>09:40</td><td class="num">6,230</td><td class="num">2,026</td><td class="num neg">−0.235%</td><td class="num">0.00%</td><td class="num">37.5%</td></tr>
+        <tr><td>09:45</td><td class="num">4,148</td><td class="num">1,386</td><td class="num neg">−0.138%</td><td class="num">0.00%</td><td class="num">38.5%</td></tr>
+        <tr><td>10:00</td><td class="num">2,166</td><td class="num">752</td><td class="num neg">−0.498%</td><td class="num neg">−0.381%</td><td class="num">39.2%</td></tr>
+        <tr><td>10:30</td><td class="num">1,060</td><td class="num">364</td><td class="num neg">−0.281%</td><td class="num neg">−0.299%</td><td class="num">44.0%</td></tr>
+      </tbody>
+    </table></div>
+    <figure class="chart-one"><img loading="lazy" decoding="async" src="chart5_timing_decay.png" alt="Two-panel chart: accepted rows declining across the five snapshots, and same-day mean return below zero at every snapshot."><figcaption>Later entries have less supply and still lose money: the same-day mean stays below zero at every snapshot.</figcaption></figure>
+
+    <div class="flist">
+      <div class="fi"><b>Supply decays sharply after the open.</b> 12,883 accepted rows at 09:35 fall to 1,060 by 10:30.</div>
+      <div class="fi"><b>Later snapshots are sparse,</b> so any apparent pocket there is less reliable.</div>
+      <div class="fi"><b>Same-day performance does not clear zero</b> at any robust timing view.</div>
+      <div class="fi"><b>The conclusion is operational:</b> entry timing must be modeled explicitly; it cannot be assumed away.</div>
+    </div>
+    <p class="uni-note">For each row, predictors were computed only from bars available before that decision timestamp. Later snapshots and full-day outcomes were used as labels and diagnostics only, never as features.</p>
+
+    <p class="subhead">Legacy next-open diagnostic</p>
+    <div class="shadow-caveat"><strong>Next-open evaluate-only ranker selection distribution</strong> (not the same-day primary verdict). Given the choice of when to enter, the earlier next-open ranker concentrated its picks at the open: 09:35: 1,062 (59.9%) · 09:40: 308 (17.4%) · 09:45: 181 (10.2%) · 10:00: 142 (8.0%) · 10:30: 80 (4.5%). This was a separate, superseded evaluation; the same-day table above is the verdict.</div>
+  </div>
+</section>
+
+<!-- ── reflection ── -->
+<section class="block" id="lessons">
+  <div class="wrap">
+    <div class="kicker">Lessons</div>
+    <h2>What this project demonstrates</h2>
+    <p class="lede">The final output was a reusable research platform and the discipline to reject its own leading strategy on the evidence. That is the skill: build the system, run the evidence, and accept the result.</p>
+
+    <div class="cards">
+      <div class="src"><div class="s-name">Data discipline beats model complexity</div><div class="s-role">The hardest part was not fitting scikit-learn models. It was building a point-in-time data path the model could not cheat through: historical universes, provider lineage, feature contracts, and label separation.</div></div>
+      <div class="src"><div class="s-name">Gross alpha is not deployable alpha</div><div class="s-role">The microcap bounce looked real before costs, but thin spreads and tradeability turned the apparent edge into a no-go. The lesson is to judge a strategy after execution, not before it.</div></div>
+      <div class="src"><div class="s-name">Statistically useful, economically insufficient</div><div class="s-role">The ML layer found measurable rank separation and could predict the forbidden full-day-volume oracle signal at roughly AUC 0.751, yet the cost-aware book still failed. Better-than-random is not the same as tradeable.</div></div>
+      <div class="src"><div class="s-name">Validation has to be adversarial</div><div class="s-role">Threshold ladders, walk-forward gates, bootstrap intervals, stale-artifact checks, leakage guards, and independent audits exist because the easiest person to fool in research is yourself.</div></div>
+      <div class="src"><div class="s-name">The platform survives the strategy</div><div class="s-role">The Capitulation-Volume Bounce was archived as a falsified branch, but the infrastructure remains reusable: provider ingestion, point-in-time reconstruction, feature manifests, ML evaluation, and cost-aware validation can now be applied to liquid all-cap patterns with cleaner spreads and capacity.</div></div>
+    </div>
+
+    <p class="uni-note">Next research direction: liquid all-cap strategy discovery, where spreads are tighter, execution is cleaner, and a lower raw edge may be more deployable.</p>
+  </div>
+</section>
+
+<!-- ── footer ── -->
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-cta">
+      <a href="/">← Back to portfolio</a>
+      <a href="https://github.com/jebfarneth/alpha-capital" target="_blank" rel="noopener noreferrer">GitHub repository</a>
+      <a href="mailto:jebwfarneth@outlook.com">Email me</a>
+    </div>
+    <div class="foot-name">Jeb Farneth · Alpha Capital</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var topbar=document.querySelector('.topbar');
+  var bar=document.querySelector('.secnav .wrap');
+  function setH(){document.documentElement.style.setProperty('--topbarH',topbar.offsetHeight+'px');}
+  setH(); window.addEventListener('resize',setH);
+  var links=[].slice.call(document.querySelectorAll('.secnav a'));
+  var map={}; links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting)return;
+      links.forEach(function(a){a.classList.remove('active');});
+      var a=map[e.target.id];
+      if(a){a.classList.add('active');
+        bar.scrollTo({left:a.offsetLeft-bar.clientWidth/2+a.clientWidth/2,behavior:'smooth'});}
+    });
+  },{rootMargin:'-45% 0px -50% 0px',threshold:0});
+  Object.keys(map).forEach(function(id){var el=document.getElementById(id); if(el)obs.observe(el);});
+})();
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>if(window.hljs){hljs.highlightAll();}</script>
+
+</body>
+</html>
